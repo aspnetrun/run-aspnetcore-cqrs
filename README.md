@@ -5,7 +5,7 @@ Real world example of run-angular based application
 * identity
 * CQRS
 * Event Sourcing
-* MedatR, Autofac, FluentValidator, AutoMappe
+* MedatR, Autofac, FluentValidator, AutoMapper
 * swagger
 * use case design
 
