@@ -15,7 +15,7 @@ And there are 2 sample repositories which are implemented base repository and **
 * **[run-angular-sample](https://github.com/aspnetrun/run-angular-sample)** - implemented run-angular repository and build **sample of eCommerce reference application** on Single Page Web Application(SPA) architecture using ASP.NET Core + Angular. **YOU ARE HERE.**
 
 # run-angular-sample
-This repository is under development. It is not finished yet.
+This repository is ***under development***. It is **not finished yet**.
 It will include eCommerce Real world example of run-angular based application.
 
 * identity
