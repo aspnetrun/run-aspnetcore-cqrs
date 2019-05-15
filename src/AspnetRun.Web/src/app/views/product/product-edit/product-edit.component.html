@@ -1,0 +1,75 @@
+<div class="animated fadeIn">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <form class="form-horizontal product-edit-form" [formGroup]="productForm"
+                    (ngSubmit)="saveProduct(productForm.value)" novalidate>
+                    <div class="card-header">
+                        <button type="button" class="btn btn-sm mr-1 btn-success" data-toggle="modal"
+                            (click)="saveProduct(productForm.value)">{{ operationText }}</button>
+                        <button type="button" class="btn btn-sm mr-1 btn-secondary" data-toggle="modal"
+                            (click)="close()">Close</button>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <strong>Product Info</strong>
+                                    </div>
+                                    <div class="card-body">
+
+                                        <div class="form-group row">
+                                            <label class="col-md-3 col-form-label" for="af-name">Name</label>
+                                            <div class="col-md-9">
+                                                <input type="text" id="af-name" name="af-name" class="form-control"
+                                                    formControlName="name" placeholder="" autocomplete="name">
+                                                <div controlMessage [control]="productForm.controls.name"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-md-3 col-form-label"
+                                                for="af-description">Description</label>
+                                            <div class="col-md-9">
+                                                <input type="text" id="af-description" name="af-description"
+                                                    class="form-control" formControlName="description" placeholder=""
+                                                    autocomplete="description">
+                                                <div controlMessage [control]="productForm.controls.description"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-md-3 col-form-label" for="af-unitPrice">Unit
+                                                Price</label>
+                                            <div class="col-md-9">
+                                                <input type="number" id="af-unitPrice" name="af-unitPrice"
+                                                    class="form-control" formControlName="unitPrice" placeholder=""
+                                                    autocomplete="unitPrice">
+                                                <div controlMessage [control]="productForm.controls.unitPrice"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-md-3 col-form-label" for="af-unitPrice">Category</label>
+                                            <div class="col-md-9">
+                                                <ng-select [items]="categories" bindLabel="name"
+                                                    formControlName="selectedcategory"
+                                                    (ngModelChange)="onCategorySelected()">
+                                                </ng-select>
+                                                <div controlMessage [control]="productForm.controls.unitPrice"></div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

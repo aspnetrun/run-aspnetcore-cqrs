@@ -1,0 +1,66 @@
+<div class="animated fadeIn">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <button type="button" class="btn btn-sm mr-1 btn-success" data-toggle="modal"
+                        (click)="update()">Update</button>
+                    <button type="button" class="btn btn-sm mr-1 btn-danger" data-toggle="modal"
+                        (click)="deleteModal.show()">Delete</button>
+                    <product-delete-modal #deleteModal [productId]="product.id" (productDeleted)="close()">
+                    </product-delete-modal>
+                    <button type="button" class="btn btn-sm mr-1 btn-secondary" data-toggle="modal"
+                        (click)="close()">Close</button>
+                </div>
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <strong>Product Info</strong>
+                                </div>
+                                <div class="card-body">
+
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Name</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" readonly class="form-control-plaintext"
+                                                [ngModel]="product.name">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Description</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" readonly class="form-control-plaintext"
+                                                [ngModel]="product.description">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Unit Price</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" readonly class="form-control-plaintext"
+                                                [ngModel]="product.unitPrice">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Category</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" readonly class="form-control-plaintext"
+                                                [ngModel]="product.category?.description">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
