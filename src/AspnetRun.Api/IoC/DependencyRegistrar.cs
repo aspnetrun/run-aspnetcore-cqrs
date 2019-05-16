@@ -1,6 +1,5 @@
-﻿using AspnetRun.Api.Application.Behaviors;
+﻿using AspnetRun.Api.Application.Commands;
 using AspnetRun.Api.Application.Validations;
-using AspnetRun.Api.Requests;
 using AspnetRun.Infrastructure.IoC;
 using AspnetRun.Infrastructure.Misc;
 using Autofac;
@@ -14,21 +13,9 @@ namespace AspnetRun.Api.IoC
     {
         public void Register(ContainerBuilder builder, ITypeFinder typeFinder)
         {
-            builder.RegisterAssemblyTypes(typeof(IMediator).GetTypeInfo().Assembly)
-                .AsImplementedInterfaces();
-
             // Register all the Command classes (they implement IRequestHandler) in assembly holding the Commands
-            builder.RegisterAssemblyTypes(typeof(CreateProductRequest).GetTypeInfo().Assembly)
+            builder.RegisterAssemblyTypes(typeof(CreateProductCommandHandler).GetTypeInfo().Assembly)
                 .AsClosedTypesOf(typeof(IRequestHandler<,>));
-
-            builder.Register<ServiceFactory>(context =>
-            {
-                var componentContext = context.Resolve<IComponentContext>();
-                return t => { object o; return componentContext.TryResolve(t, out o) ? o : null; };
-            });
-
-            builder.RegisterGeneric(typeof(TransactionBehaviour<,>)).As(typeof(IPipelineBehavior<,>));
-
 
             // Register the Command's Validators (Validators based on FluentValidation library)
             builder.RegisterAssemblyTypes(typeof(CreateProductRequestValidator).GetTypeInfo().Assembly)
