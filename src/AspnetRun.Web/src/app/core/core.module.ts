@@ -9,15 +9,31 @@ import { HttpErrorInterceptor } from './interceptors/http-error.interceptor';
 import { NgxUiLoaderModule, NgxUiLoaderHttpModule } from 'ngx-ui-loader';
 import { SpinnerService } from './services/spinner.service';
 import { LayoutComponent } from './layout/layout.component';
+import { AppAsideModule, AppBreadcrumbModule, AppHeaderModule, AppFooterModule, AppSidebarModule } from '@coreui/angular';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 import { RouterModule } from '@angular/router';
 
+const APP_CONTAINERS = [LayoutComponent];
+
 @NgModule({
-  declarations: [LayoutComponent],
+  declarations: [
+    ...APP_CONTAINERS,
+  ],
   imports: [
     RouterModule,
     NgxUiLoaderModule,
     //NgxUiLoaderRouterModule, // import this module for showing loader automatically when navigating between app routes
     NgxUiLoaderHttpModule.forRoot({ showForeground: false }),
+    AppAsideModule,
+    AppBreadcrumbModule.forRoot(),
+    AppFooterModule,
+    AppHeaderModule,
+    AppSidebarModule,
+    PerfectScrollbarModule,
+    BsDropdownModule.forRoot(),
+    TabsModule.forRoot(),
   ],
   exports: [
     RouterModule,
