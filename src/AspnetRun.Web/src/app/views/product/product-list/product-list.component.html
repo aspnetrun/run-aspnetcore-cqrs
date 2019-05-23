@@ -15,30 +15,4 @@
     <a class="btn btn-sm mr-1 btn-success" routerLink="/product/product-edit">Create New</a>
 </p>
 
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Name</th>
-            <th scope="col">UnitPrice</th>
-            <th scope="col">Category</th>
-            <th scope="col">Action</th>
-        </tr>
-    </thead>
-    <tbody *ngFor="let product of products; index as i">
-        <tr>
-            <th scope="row">{{ product.id }}</th>
-            <td>{{ product.name }}</td>
-            <td>{{ product.unitPrice }}</td>
-            <td>{{ product.category?.name }}</td>
-            <td>
-                <a class="btn btn-sm mr-1 btn-info" [routerLink]="['/product/product-detail/' + product.id]">Details</a>
-                <a class="btn btn-sm mr-1 btn-warning" [routerLink]="['/product/product-edit/' + product.id]">Edit</a>
-                <button type="button" class="btn btn-sm mr-1 btn-danger" data-toggle="modal"
-                    (click)="deleteModal.show()">Delete</button>
-                <product-delete-modal #deleteModal [productId]="product.id" (productDeleted)="getProducts()">
-                </product-delete-modal>
-            </td>
-        </tr>
-    </tbody>
-</table>
+<app-tabulator-table [options]="gridOptions" [data]="gridOptions.data"></app-tabulator-table>

@@ -2,9 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { ControlMessageComponent } from './control-messages/control-message.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgSelectModule } from '@ng-select/ng-select';
+
+import { ControlMessageComponent } from './control-messages/control-message.component';
+import { TabulatorTableComponent } from './tabulator-table/tabulator-table.component';
 
 @NgModule({
   imports: [
@@ -20,9 +22,11 @@ import { NgSelectModule } from '@ng-select/ng-select';
     ModalModule,
     NgSelectModule,
     ControlMessageComponent,
+    TabulatorTableComponent,
   ],
   declarations: [
     ControlMessageComponent,
+    TabulatorTableComponent,
   ]
 })
 export class SharedModule { }
