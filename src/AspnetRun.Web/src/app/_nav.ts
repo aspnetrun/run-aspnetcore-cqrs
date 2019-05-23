@@ -31,6 +31,6 @@ export interface NavData {
 
 export const navItems: NavData[] = [
     { name: 'Dashboard', url: '/dashboard', icon: 'icon-speedometer', },
-    { name: 'Products', url: '/product/product-list', icon: 'icon-calendar' },
-    { name: 'Categories', url: '/category/category-list', icon: 'icon-pencil' },
+    { name: 'Products', url: '/product/product-list', icon: 'icon-list' },
+    { name: 'Categories', url: '/category/category-list', icon: 'icon-folder-alt' },
 ];

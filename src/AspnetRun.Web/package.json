@@ -29,6 +29,7 @@
     "ngx-perfect-scrollbar": "^7.2.1",
     "ngx-ui-loader": "^7.2.2",
     "rxjs": "~6.5.1",
+    "simple-line-icons": "^2.4.1",
     "tslib": "^1.9.0",
     "zone.js": "~0.8.26"
   },
