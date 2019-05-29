@@ -6,7 +6,6 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgSelectModule } from '@ng-select/ng-select';
 
 import { ControlMessageComponent } from './control-messages/control-message.component';
-import { TabulatorTableComponent } from './tabulator-table/tabulator-table.component';
 
 @NgModule({
   imports: [
@@ -22,11 +21,9 @@ import { TabulatorTableComponent } from './tabulator-table/tabulator-table.compo
     ModalModule,
     NgSelectModule,
     ControlMessageComponent,
-    TabulatorTableComponent,
   ],
   declarations: [
     ControlMessageComponent,
-    TabulatorTableComponent,
   ]
 })
 export class SharedModule { }

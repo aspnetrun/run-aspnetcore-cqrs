@@ -2,34 +2,13 @@ import { Component } from '@angular/core';
 import { ProductDataService } from 'src/app/core/services/product-data.service';
 import { ActivatedRoute } from '@angular/router';
 import { IProduct } from 'src/app/shared/interfaces';
-import { ITabulatorOptions } from 'src/app/shared/tabulator-table/tabulator-table';
 
 @Component({
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent {
-  gridOptions: ITabulatorOptions = {
-    data: [],
-    columns: [
-      { title: 'Id', field: 'id' },
-      { title: 'Name', field: 'name' },
-      { title: 'Unit Price', field: 'unitPrice' },
-      { title: 'Category', field: 'category.name' },
-      {
-        title: 'Action', field: 'action', formatter: function (cell: any, formatterParams: any) {
-          var productId = cell._cell.row.data.id;
-
-          return '<a class="btn btn-sm mr-1 btn-info" [routerLink]="[\'/product/product-detail/\' + ' + productId + ']">Details</a>'
-            + '<a class="btn btn-sm mr-1 btn-warning" [routerLink]="[\'/product/product-edit/\' + ' + productId + ']">Edit</a>'
-            + '<button type="button" class="btn btn-sm mr-1 btn-danger" data-toggle="modal"'
-            + '    (click)="deleteModal.show()">Delete</button>'
-            + '<product-delete-modal #deleteModal [productId]="' + productId + '" (productDeleted)="getProducts()">'
-            + '</product-delete-modal>'
-        }
-      },
-    ]
-  }
+  products: IProduct[];
   productName: string = '';
 
   constructor(private dataService: ProductDataService, route: ActivatedRoute) {
@@ -40,7 +19,7 @@ export class ProductListComponent {
 
   getProducts() {
     this.dataService.getProductsByName(this.productName).subscribe((products: IProduct[]) => {
-      this.gridOptions.data = products;
+      this.products = products;
     });
   }
 }
