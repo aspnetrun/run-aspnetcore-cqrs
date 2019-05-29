@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import Tabulator from 'tabulator-tables';
-import { ITabulatorTableOptions } from './tabulator-table';
+import { ITabulatorOptions } from './tabulator-table';
 
 @Component({
   selector: 'app-tabulator-table',
@@ -8,11 +8,9 @@ import { ITabulatorTableOptions } from './tabulator-table';
   styleUrls: ['./tabulator-table.component.scss']
 })
 export class TabulatorTableComponent implements OnChanges {
-
-  @Input() options: ITabulatorTableOptions;
   table: Tabulator;
-  tab = document.createElement('div');
 
+  @Input() options: ITabulatorOptions;
   @Input()
   set data(data) {
     this.options.data = data;
@@ -20,17 +18,16 @@ export class TabulatorTableComponent implements OnChanges {
       this.table.setData(this.options.data);
   }
 
+  tab = document.createElement('div');
+
   ngOnChanges(changes: SimpleChanges): void {
     this.drawTable();
   }
 
   private drawTable(): void {
-    this.table = new Tabulator(this.tab, {
-      data: this.options.data,
-      reactiveData: true,
-      columns: this.options.columns,
-      layout: 'fitColumns',
-    });
+    this.options.reactiveData = true;
+    this.options.layout = "fitColumns";
+    this.table = new Tabulator(this.tab, this.options);
     document.getElementById('tabular-table').appendChild(this.tab);
   }
 }
