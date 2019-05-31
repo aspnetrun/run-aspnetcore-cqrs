@@ -1,0 +1,10 @@
+.page-spin {
+    border: none;
+    height: 32px;
+    background-color: transparent;
+    cursor: default;
+    animation: fa-spin 1.2s infinite linear !important;
+  }
+  .page-spin:hover {
+      background-color: transparent;
+  }

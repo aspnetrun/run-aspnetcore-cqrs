@@ -1,0 +1,6 @@
+:host ::ng-deep .gridPane{
+    width: 100%!important;
+}
+:host ::ng-deep .slickgrid-container{
+    width: 100%!important;
+ }
