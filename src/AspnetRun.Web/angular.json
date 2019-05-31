@@ -27,9 +27,20 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.css",
+              "node_modules/font-awesome/css/font-awesome.css",
+              "node_modules/flatpickr/dist/flatpickr.css",
+              "node_modules/angular-slickgrid/lib/multiple-select/multiple-select.css",
+              "node_modules/angular-slickgrid/styles/css/slickgrid-theme-bootstrap.css",
               "src/styles.scss"
             ],
-            "scripts": [],
+            "scripts": [
+              "node_modules/jquery/dist/jquery.js",
+              "node_modules/jquery-ui-dist/jquery-ui.min.js",
+              "node_modules/slickgrid/lib/jquery.event.drag-2.3.0.js",
+              "node_modules/bootstrap/dist/js/bootstrap.js",
+              "node_modules/angular-slickgrid/lib/multiple-select/multiple-select.js"
+            ],
             "es5BrowserSupport": true
           },
           "configurations": {

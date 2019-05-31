@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { AngularSlickgridModule } from 'angular-slickgrid';
 
 import { ControlMessageComponent } from './control-messages/control-message.component';
 
@@ -13,6 +14,7 @@ import { ControlMessageComponent } from './control-messages/control-message.comp
     FormsModule,
     ModalModule.forRoot(),
     NgSelectModule,
+    AngularSlickgridModule.forRoot(),
   ],
   exports: [
     CommonModule,
@@ -20,6 +22,7 @@ import { ControlMessageComponent } from './control-messages/control-message.comp
     ReactiveFormsModule,
     ModalModule,
     NgSelectModule,
+    AngularSlickgridModule,
     ControlMessageComponent,
   ],
   declarations: [

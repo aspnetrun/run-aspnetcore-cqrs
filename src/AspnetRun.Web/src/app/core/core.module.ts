@@ -14,6 +14,7 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 const APP_CONTAINERS = [LayoutComponent];
 
@@ -34,6 +35,7 @@ const APP_CONTAINERS = [LayoutComponent];
     PerfectScrollbarModule,
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
+    TranslateModule.forRoot(),
   ],
   exports: [
     RouterModule,
