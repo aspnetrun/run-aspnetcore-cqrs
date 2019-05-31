@@ -7,6 +7,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { AngularSlickgridModule } from 'angular-slickgrid';
 
 import { ControlMessageComponent } from './control-messages/control-message.component';
+import { SlickgridComponent } from './slickgrid/slickgrid.component';
+import { SlickgridGridComponent } from './slickgrid/grid/slickgrid-grid.component';
+import { SlickgridPaginationComponent } from './slickgrid/pagination/slickgrid-pagination.component';
 
 @NgModule({
   imports: [
@@ -24,9 +27,13 @@ import { ControlMessageComponent } from './control-messages/control-message.comp
     NgSelectModule,
     AngularSlickgridModule,
     ControlMessageComponent,
+    SlickgridComponent,
   ],
   declarations: [
     ControlMessageComponent,
+    SlickgridComponent,
+    SlickgridGridComponent,
+    SlickgridPaginationComponent,
   ]
 })
 export class SharedModule { }
