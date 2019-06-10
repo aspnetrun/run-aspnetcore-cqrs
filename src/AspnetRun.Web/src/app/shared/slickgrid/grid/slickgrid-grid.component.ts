@@ -14,6 +14,9 @@ const DEFAULT_FILTER_TYPING_DEBOUNCE = 750;
   styleUrls: ['./slickgrid-grid.component.css']
 })
 export class SlickgridGridComponent implements BackendService {
+  @Input() columnDefinitions2: Column[];
+  @Input() gridOptions2: GridOption;
+  @Input() dataset2: any[];
 
   @Input() gridHeight = 100;
   @Input() gridWidth = 600;
@@ -21,7 +24,7 @@ export class SlickgridGridComponent implements BackendService {
   gridHeightString: string;
   gridWidthString: string;
 
-  @ViewChild('angularSlickGrid') angularSlickGrid: AngularSlickgridComponent;
+  @ViewChild('angularSlickgrid') angularSlickgrid: AngularSlickgridComponent;
 
   columnDefinitions: Column[] = [];
   dataset: any[];
@@ -101,7 +104,7 @@ export class SlickgridGridComponent implements BackendService {
         postProcess: (response) => { }
       };
       this._paginationComponent.gridPaginationOptions = this.gridOptions;
-      this.angularSlickGrid.createBackendApiInternalPostProcessCallback(this.gridOptions);
+      this.angularSlickgrid.createBackendApiInternalPostProcessCallback(this.gridOptions);
     }
   }
 
@@ -158,7 +161,7 @@ export class SlickgridGridComponent implements BackendService {
 
       // Columns are not visible, seems to be a bug ? next line fixed it..
       this.gridObj.setColumns(this.columnDefinitions);
-      this.angularSlickGrid.showPagination = false;
+      this.angularSlickgrid.showPagination = false;
     }
 
     // Dummy dataset

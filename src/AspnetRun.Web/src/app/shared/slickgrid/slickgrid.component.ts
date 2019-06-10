@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, AfterViewInit, } from '@angular/core';
-import { FilterChangedArgs, PaginationChangedArgs, SortChangedArgs } from 'angular-slickgrid';
+import { Component, OnInit, ViewChild, AfterViewInit, Input, } from '@angular/core';
+import { FilterChangedArgs, PaginationChangedArgs, SortChangedArgs, Column, GridOption } from 'angular-slickgrid';
 import { SlickgridGridComponent } from './grid/slickgrid-grid.component';
 import { SlickgridPaginationComponent } from './pagination/slickgrid-pagination.component';
 
@@ -9,14 +9,19 @@ import { SlickgridPaginationComponent } from './pagination/slickgrid-pagination.
   styleUrls: ['./slickgrid.component.css']
 })
 export class SlickgridComponent implements OnInit, AfterViewInit {
+
+  @Input() columnDefinitions2: Column[];
+  @Input() gridOptions2: GridOption;
+  @Input() dataset2: any[];
+
   componentFactory: any;
-  @ViewChild('commonGrid1') commonGrid: SlickgridGridComponent;
-  @ViewChild('commonGridPag1') commonGridPag: SlickgridPaginationComponent;
+  @ViewChild('slickgridGrid') slickgridGrid: SlickgridGridComponent;
+  @ViewChild('slickgridPagination') slickgridPagination: SlickgridPaginationComponent;
 
   ngOnInit() {
     // Link pagination component into the current Grid
-    if (this.commonGridPag) {
-      this.commonGrid.paginationComponent = this.commonGridPag;
+    if (this.slickgridPagination) {
+      this.slickgridGrid.paginationComponent = this.slickgridPagination;
     }
 
   }
@@ -25,28 +30,28 @@ export class SlickgridComponent implements OnInit, AfterViewInit {
 
     setTimeout(() => {
       // Init datagrid example:
-      this.commonGridPag.processing = true;
+      this.slickgridPagination.processing = true;
 
-      this.commonGrid.CustomGrid(data_sample.pagination_samples.grid.metadata);
-      this.commonGrid.gridData = data_sample.pagination_samples.grid.rows;
-      this.commonGridPag.pageCount = data_sample.pagination_samples.grid.rows.maxpage;
+      this.slickgridGrid.CustomGrid(data_sample.pagination_samples.grid.metadata);
+      this.slickgridGrid.gridData = data_sample.pagination_samples.grid.rows;
+      this.slickgridPagination.pageCount = data_sample.pagination_samples.grid.rows.maxpage;
 
-      this.commonGridPag.processing = false;
+      this.slickgridPagination.processing = false;
     }, 0);
   }
 
   filterChanged(event: FilterChangedArgs) {
-    this.commonGridPag.processing = true;
+    this.slickgridPagination.processing = true;
     this.updateGridData();
   }
 
   paginationChanged(event: PaginationChangedArgs) {
-    this.commonGridPag.processing = true;
+    this.slickgridPagination.processing = true;
     this.updateGridData();
   }
 
   sortChanged(event: SortChangedArgs) {
-    this.commonGridPag.processing = true;
+    this.slickgridPagination.processing = true;
     this.updateGridData();
   }
 
@@ -54,8 +59,8 @@ export class SlickgridComponent implements OnInit, AfterViewInit {
   updateGridData() {
 
     setTimeout(() => {
-      this.commonGrid.gridData = data_sample.pagination_samples.grid.rows;
-      this.commonGridPag.pageCount = data_sample.pagination_samples.grid.rows.maxpage;
+      this.slickgridGrid.gridData = data_sample.pagination_samples.grid.rows;
+      this.slickgridPagination.pageCount = data_sample.pagination_samples.grid.rows.maxpage;
     }, 750);
   }
 }

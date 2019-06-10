@@ -1,3 +1,4 @@
-<slickgrid-grid #commonGrid1 (onFilterChanged)="filterChanged($event)" (onPaginationChanged)="paginationChanged($event)"
+<slickgrid-grid #slickgridGrid [columnDefinitions2]="columnDefinitions2" [gridOptions2]="gridOptions2"
+    [dataset2]="dataset2" (onFilterChanged)="filterChanged($event)" (onPaginationChanged)="paginationChanged($event)"
     (onSortChanged)="sortChanged($event)"></slickgrid-grid>
-<slickgrid-pagination #commonGridPag1></slickgrid-pagination>
+<slickgrid-pagination #slickgridPagination></slickgrid-pagination>
