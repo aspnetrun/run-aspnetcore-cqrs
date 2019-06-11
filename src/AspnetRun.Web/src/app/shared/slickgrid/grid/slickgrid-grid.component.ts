@@ -14,9 +14,39 @@ const DEFAULT_FILTER_TYPING_DEBOUNCE = 750;
   styleUrls: ['./slickgrid-grid.component.css']
 })
 export class SlickgridGridComponent implements BackendService {
-  @Input() columnDefinitions2: Column[];
-  @Input() gridOptions2: GridOption;
-  @Input() dataset2: any[];
+  @Input() columnDefinitions: Column[];
+  @Input() gridOptions: GridOption = {};
+  _dataset: any[];
+  @Input()
+  set dataset(rawData: any) {
+    /*
+    const dataProvider: any = [];
+
+    for (let index = 0; rawData && index < rawData.length; index++) {
+      const row = <Object>rawData[index];
+      const idObj = {
+        id: index
+      };
+
+      let key: string;
+      const rowData: any = [];
+      for (key in row) {
+        if (row.hasOwnProperty(key)) {
+          rowData[key] = row[key];
+        }
+      }
+      dataProvider[index] = Object.assign(rowData, idObj);
+    }
+
+    this._dataset = dataProvider;
+    */
+    this._dataset = rawData;
+    this.paginationComponent.processing = false;
+  }
+
+  get dataset(): any {
+    return this._dataset;
+  }
 
   @Input() gridHeight = 100;
   @Input() gridWidth = 600;
@@ -26,8 +56,6 @@ export class SlickgridGridComponent implements BackendService {
 
   @ViewChild('angularSlickgrid') angularSlickgrid: AngularSlickgridComponent;
 
-  columnDefinitions: Column[] = [];
-  dataset: any[];
   gridObj: any;
   dataviewObj: any;
   isAutoEdit = false;
@@ -35,13 +63,6 @@ export class SlickgridGridComponent implements BackendService {
   isMultiSelect = true;
   selectedObjects: any[];
   selectedObject: any;
-
-  // Slick grid
-  metaData: any;
-  columnData: any;
-  rowsData: any;
-  selects: any;
-  id: any;
 
   options: BackendServiceOption;
   pagination: Pagination;
@@ -64,26 +85,6 @@ export class SlickgridGridComponent implements BackendService {
 
 
   private _selectedRow: any;
-
-  gridOptions: GridOption = {
-    asyncEditorLoading: false,
-    autoEdit: this.isAutoEdit,
-    autoResize: {
-      containerId: 'common-grid-container',
-      sidePadding: 15
-    },
-    // locale: 'fr',
-    enableColumnPicker: true,
-    enableCellNavigation: true,
-    enableRowSelection: true,
-    enableCheckboxSelector: false,
-    enableFiltering: true,
-    rowHeight: 23,
-    forceFitColumns: true,
-    enableAutoTooltip: true,
-    enableGridMenu: true,
-    enablePagination: false
-  };
 
   // Initialized to a fake pagination object
   private _paginationComponent: any = {
@@ -112,105 +113,6 @@ export class SlickgridGridComponent implements BackendService {
     return this._paginationComponent;
   }
 
-  /**
-  * CustomGrid constructor
-  * @param columnData
-  */
-  CustomGrid(columnData: any) {
-    this.id = 'grid' + Math.floor(Math.random() * Math.floor(100));
-
-    // get metadata from input JSON
-    this.metaData = columnData;
-
-    // COLUMNS DATA
-    const rowData: any = [];
-
-    // check if allcolumns tag contains any children
-    if (this.metaData.columns.column) {
-
-      // set columnsData and columnDefinitions
-      this.columnData = this.metaData.columns.column;
-
-      for (let index = 0; index < this.columnData.length; index++) {
-
-        const type = FieldType.string;
-        const editor = null;
-        const formatter = null;
-        const filter = null;
-        const outputType = null;
-        const params = null;
-
-        const col = {
-          id: this.columnData[index].dataelement,
-          name: this.columnData[index].heading,
-          field: this.columnData[index].dataelement,
-          sortable: this.columnData[index].sort,
-          filterable: this.columnData[index].filterable,
-          type,
-          editor,
-          formatter,
-          filter,
-          outputType,
-          params,
-          width: this.columnData[index].width
-        };
-
-        this.columnDefinitions.push(col);
-        rowData[col.id] = '';
-      }
-
-      // Columns are not visible, seems to be a bug ? next line fixed it..
-      this.gridObj.setColumns(this.columnDefinitions);
-      this.angularSlickgrid.showPagination = false;
-    }
-
-    // Dummy dataset
-    this.dataset = rowData;
-  }
-
-  /**
-   * CommonGrid constructor
-   * @param columnsData
-   * @param lockedColumnCount
-   * @param uniqueColumn
-   * @param baseURL
-   * @param programId
-   * @param componentId
-   * @param enableRenders
-   * @param colValidationMap
-   * @param checkHeader
-   * @param cboLinked
-   */
-  CommonGrid(columnsData: any, lockedColumnCount: number, uniqueColumn: string, baseURL: string, programId: string, componentId: string, enableRenders: boolean = true, colValidationMap: any = null, checkHeader: boolean = false, cboLinked: boolean = false) {
-  }
-
-  set gridData(rawData: any) {
-    const dataProvider: any = [];
-
-    for (let index = 0; rawData.row && index < rawData.row.length; index++) {
-      const row = <Object>rawData.row[index];
-      const idObj = {
-        id: index
-      };
-
-      let key: string;
-      const rowData: any = [];
-      for (key in row) {
-        if (row.hasOwnProperty(key)) {
-          rowData[key] = row[key].content;
-        }
-      }
-      dataProvider[index] = Object.assign(rowData, idObj);
-    }
-
-    this.dataset = dataProvider;
-    this.paginationComponent.processing = false;
-  }
-
-  get gridData(): any {
-    return this.dataset;
-  }
-
   gridReady(grid) {
     this.gridObj = grid;
   }
@@ -231,9 +133,7 @@ export class SlickgridGridComponent implements BackendService {
     this.pagination = pagination;
   }
 
-
   resetPaginationOptions() {
-
   }
 
   updateOptions(serviceOptions?: BackendServiceOption) {

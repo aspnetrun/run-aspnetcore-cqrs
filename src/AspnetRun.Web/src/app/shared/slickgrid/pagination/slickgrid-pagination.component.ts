@@ -16,21 +16,19 @@ export class SlickgridPaginationComponent {
 
   // Reference to the real pagination component
   realPagination = true;
-  _gridPaginationOptions: GridOption;
-  commonGrid: SlickgridGridComponent;
+  gridComponent: SlickgridGridComponent;
 
+  _gridPaginationOptions: GridOption;
   @Input()
   set gridPaginationOptions(gridPaginationOptions: GridOption) {
     this._gridPaginationOptions = gridPaginationOptions;
 
     // The backendServiceApi is itself the SlickgridGridComponent (This is a hack)
-    this.commonGrid = <SlickgridGridComponent>this.gridPaginationOptions.backendServiceApi.service;
+    this.gridComponent = <SlickgridGridComponent>this.gridPaginationOptions.backendServiceApi.service;
   }
   get gridPaginationOptions(): GridOption {
     return this._gridPaginationOptions;
   }
-
-
 
   changeToFirstPage(event: any) {
     this.pageNumber = 1;
@@ -56,7 +54,6 @@ export class SlickgridPaginationComponent {
     }
   }
 
-
   changeToCurrentPage(event: any) {
     this.pageNumber = event.currentTarget.value;
     if (this.pageNumber < 1) {
@@ -69,6 +66,6 @@ export class SlickgridPaginationComponent {
   }
 
   onPageChanged(event?: Event, pageNumber?: number) {
-    this.commonGrid.processOnPaginationChanged(event, { newPage: pageNumber, pageSize: -1 });
+    this.gridComponent.processOnPaginationChanged(event, { newPage: pageNumber, pageSize: -1 });
   }
 }

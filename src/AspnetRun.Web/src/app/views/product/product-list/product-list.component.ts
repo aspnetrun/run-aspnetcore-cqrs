@@ -39,11 +39,23 @@ export class ProductListComponent implements OnInit {
 
     this.gridOptions = {
       autoHeight: true,
+      asyncEditorLoading: false,
+      autoEdit: false,
       autoResize: {
         containerId: 'page',
         sidePadding: 0
       },
+      // locale: 'fr',
+      enableColumnPicker: true,
+      enableCellNavigation: true,
+      enableRowSelection: true,
+      enableCheckboxSelector: false,
       enableFiltering: true,
+      //rowHeight: 23,
+      forceFitColumns: true,
+      enableAutoTooltip: true,
+      enableGridMenu: true,
+      enablePagination: false
     };
   }
 
