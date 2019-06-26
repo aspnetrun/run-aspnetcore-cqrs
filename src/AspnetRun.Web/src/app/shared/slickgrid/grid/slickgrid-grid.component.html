@@ -1,4 +1,4 @@
 <angular-slickgrid gridId='slickgrid-grid' #angularSlickgrid (onDataviewCreated)="dataviewReady($event)"
-    (onGridCreated)="gridReady($event)" [columnDefinitions]="columnDefinitions" [gridOptions]="gridOptions"
-    [dataset]="dataset">
+    (onGridCreated)="gridReady($event)" [columnDefinitions]="columnDefinitions" [gridOptions]="_gridOptions"
+    [dataset]="_dataset">
 </angular-slickgrid>

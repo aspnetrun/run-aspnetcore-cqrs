@@ -14,18 +14,54 @@ const DEFAULT_FILTER_TYPING_DEBOUNCE = 750;
   styleUrls: ['./slickgrid-grid.component.css']
 })
 export class SlickgridGridComponent implements BackendService {
-  @Input() columnDefinitions: Column[];
-  @Input() gridOptions: GridOption = {};
+  _columnDefinitions: Column[];
+  _gridOptions: GridOption = {
+    asyncEditorLoading: false,
+    autoEdit: false,
+    autoResize: {
+      containerId: 'common-grid-container',
+      sidePadding: 0
+    },
+    // locale: 'fr',
+    enableColumnPicker: true,
+    enableCellNavigation: true,
+    enableRowSelection: true,
+    enableCheckboxSelector: false,
+    enableFiltering: true,
+    forceFitColumns: true,
+    enableAutoTooltip: true,
+    enableGridMenu: true,
+    enablePagination: false
+  };
   _dataset: any[];
-  @Input()
+
+  get columnDefinitions(): Column[] {
+    return this._columnDefinitions;
+  }
+  @Input('columnDefinitions')
+  set columnDefinitions(columnDefinitions: Column[]) {
+    this._columnDefinitions = columnDefinitions;
+  }
+
+  get gridOptions(): GridOption {
+    return this._gridOptions;
+  }
+  @Input('gridOptions')
+  set gridOptions(gridOption: GridOption) {
+    //this._gridOptions = gridOption;
+  }
+
+  get dataset(): any {
+    return this._dataset;
+  }
+  @Input('dataset')
   set dataset(rawData: any) {
-    /*
     const dataProvider: any = [];
 
     for (let index = 0; rawData && index < rawData.length; index++) {
       const row = <Object>rawData[index];
       const idObj = {
-        id: index
+        id: row['id'] | index
       };
 
       let key: string;
@@ -39,14 +75,10 @@ export class SlickgridGridComponent implements BackendService {
     }
 
     this._dataset = dataProvider;
-    */
-    this._dataset = rawData;
+    //this._dataset = rawData;
     this.paginationComponent.processing = false;
   }
 
-  get dataset(): any {
-    return this._dataset;
-  }
 
   @Input() gridHeight = 100;
   @Input() gridWidth = 600;
@@ -58,7 +90,6 @@ export class SlickgridGridComponent implements BackendService {
 
   gridObj: any;
   dataviewObj: any;
-  isAutoEdit = false;
   updatedObject: any;
   isMultiSelect = true;
   selectedObjects: any[];
@@ -96,7 +127,7 @@ export class SlickgridGridComponent implements BackendService {
   set paginationComponent(value: SlickgridPaginationComponent) {
     if (value.realPagination) {
       this._paginationComponent = value;
-      this.gridOptions.backendServiceApi = {
+      this._gridOptions.backendServiceApi = {
         service: this,
         preProcess: () => { },
         process: (query) => {
@@ -104,8 +135,8 @@ export class SlickgridGridComponent implements BackendService {
         },
         postProcess: (response) => { }
       };
-      this._paginationComponent.gridPaginationOptions = this.gridOptions;
-      this.angularSlickgrid.createBackendApiInternalPostProcessCallback(this.gridOptions);
+      this._paginationComponent.gridPaginationOptions = this._gridOptions;
+      this.angularSlickgrid.createBackendApiInternalPostProcessCallback(this._gridOptions);
     }
   }
 

@@ -21,7 +21,7 @@ export class ProductListComponent implements OnInit {
   }
 
   categoryFormatter: Formatter = (row, cell, value, columnDef, dataContext) => {
-    return dataContext.category.name
+    return dataContext.category.name;
   };
 
   ngOnInit(): void {
