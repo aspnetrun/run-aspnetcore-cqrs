@@ -19,7 +19,7 @@ export class SlickgridGridComponent implements BackendService {
     asyncEditorLoading: false,
     autoEdit: false,
     autoResize: {
-      containerId: 'common-grid-container',
+      containerId: 'slickgrid-container',
       sidePadding: 0
     },
     // locale: 'fr',

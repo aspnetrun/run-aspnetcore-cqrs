@@ -27,7 +27,7 @@ export class ProductListComponent implements OnInit {
   ngOnInit(): void {
     this.columnDefinitions = [
       {
-        id: 'detail', field: 'id', excludeFromHeaderMenu: true, formatter: Formatters.infoIcon, minWidth: 25, maxWidth: 25,
+        id: 'detail', field: 'id', excludeFromHeaderMenu: true, formatter: Formatters.infoIcon, minWidth: 30, maxWidth: 30,
         onCellClick: (e: Event, args: OnEventArgs) => {
           this.router.navigate(['/product/product-detail/' + args.dataContext.id]);
         }

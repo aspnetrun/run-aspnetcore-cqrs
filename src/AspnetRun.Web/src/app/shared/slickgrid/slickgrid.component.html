@@ -1,4 +1,6 @@
-<slickgrid-grid #slickgridGrid [columnDefinitions]="columnDefinitions" [gridOptions]="gridOptions" [dataset]="dataset"
-    (onFilterChanged)="filterChanged($event)" (onPaginationChanged)="paginationChanged($event)"
-    (onSortChanged)="sortChanged($event)"></slickgrid-grid>
-<slickgrid-pagination #slickgridPagination></slickgrid-pagination>
+<div style="width: 1000px">
+    <slickgrid-grid #slickgridGrid [columnDefinitions]="columnDefinitions" [gridOptions]="gridOptions"
+        [dataset]="dataset" (onFilterChanged)="filterChanged($event)" (onPaginationChanged)="paginationChanged($event)"
+        (onSortChanged)="sortChanged($event)"></slickgrid-grid>
+    <slickgrid-pagination #slickgridPagination></slickgrid-pagination>
+</div>
