@@ -8,7 +8,7 @@ import { AngularSlickgridModule } from 'angular-slickgrid';
 
 import { ControlMessageComponent } from './control-messages/control-message.component';
 import { SlickgridComponent } from './slickgrid/slickgrid.component';
-import { SlickgridGridComponent } from './slickgrid/grid/slickgrid-grid.component';
+import { SlickgridTableComponent } from './slickgrid/table/slickgrid-table.component';
 import { SlickgridPaginationComponent } from './slickgrid/pagination/slickgrid-pagination.component';
 
 @NgModule({
@@ -32,7 +32,7 @@ import { SlickgridPaginationComponent } from './slickgrid/pagination/slickgrid-p
   declarations: [
     ControlMessageComponent,
     SlickgridComponent,
-    SlickgridGridComponent,
+    SlickgridTableComponent,
     SlickgridPaginationComponent,
   ]
 })

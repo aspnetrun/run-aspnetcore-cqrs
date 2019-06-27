@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { GridOption } from 'angular-slickgrid';
-import { SlickgridGridComponent } from '../grid/slickgrid-grid.component';
+import { SlickgridTableComponent } from '../table/slickgrid-table.component';
 
 @Component({
   selector: 'slickgrid-pagination',
@@ -16,15 +16,15 @@ export class SlickgridPaginationComponent {
 
   // Reference to the real pagination component
   realPagination = true;
-  gridComponent: SlickgridGridComponent;
+  gridComponent: SlickgridTableComponent;
 
   _gridPaginationOptions: GridOption;
   @Input()
   set gridPaginationOptions(gridPaginationOptions: GridOption) {
     this._gridPaginationOptions = gridPaginationOptions;
 
-    // The backendServiceApi is itself the SlickgridGridComponent (This is a hack)
-    this.gridComponent = <SlickgridGridComponent>this.gridPaginationOptions.backendServiceApi.service;
+    // The backendServiceApi is itself the SlickgridTableComponent (This is a hack)
+    this.gridComponent = <SlickgridTableComponent>this.gridPaginationOptions.backendServiceApi.service;
   }
   get gridPaginationOptions(): GridOption {
     return this._gridPaginationOptions;

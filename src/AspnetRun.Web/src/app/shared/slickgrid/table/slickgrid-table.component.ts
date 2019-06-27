@@ -9,11 +9,11 @@ let timer: any;
 const DEFAULT_FILTER_TYPING_DEBOUNCE = 750;
 
 @Component({
-  selector: 'slickgrid-grid',
-  templateUrl: './slickgrid-grid.component.html',
-  styleUrls: ['./slickgrid-grid.component.css']
+  selector: 'slickgrid-table',
+  templateUrl: './slickgrid-table.component.html',
+  styleUrls: ['./slickgrid-table.component.css']
 })
-export class SlickgridGridComponent implements BackendService {
+export class SlickgridTableComponent implements BackendService {
   _columnDefinitions: Column[];
   _gridOptions: GridOption = {
     autoHeight: true,

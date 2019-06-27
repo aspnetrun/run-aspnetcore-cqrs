@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, AfterViewInit, Input, } from '@angular/core';
 import { FilterChangedArgs, PaginationChangedArgs, SortChangedArgs, Column, GridOption } from 'angular-slickgrid';
-import { SlickgridGridComponent } from './grid/slickgrid-grid.component';
+import { SlickgridTableComponent } from './table/slickgrid-table.component';
 import { SlickgridPaginationComponent } from './pagination/slickgrid-pagination.component';
 
 @Component({
@@ -15,13 +15,13 @@ export class SlickgridComponent implements OnInit {
   @Input() dataset: any[];
   @Input() pageCount: number;
 
-  @ViewChild('slickgridGrid') slickgridGrid: SlickgridGridComponent;
+  @ViewChild('slickgridTable') slickgridTable: SlickgridTableComponent;
   @ViewChild('slickgridPagination') slickgridPagination: SlickgridPaginationComponent;
 
   ngOnInit() {
     // Link pagination component into the current Grid
     if (this.slickgridPagination) {
-      this.slickgridGrid.paginationComponent = this.slickgridPagination;
+      this.slickgridTable.paginationComponent = this.slickgridPagination;
     }
   }
 
@@ -42,7 +42,7 @@ export class SlickgridComponent implements OnInit {
 
   updateGridData() {
     setTimeout(() => {
-      this.slickgridGrid.dataset = this.dataset;
+      this.slickgridTable.dataset = this.dataset;
       this.slickgridPagination.pageCount = this.pageCount;
     }, 750);
   }
