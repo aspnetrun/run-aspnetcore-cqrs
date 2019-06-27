@@ -8,11 +8,12 @@ import { SlickgridPaginationComponent } from './pagination/slickgrid-pagination.
   templateUrl: './slickgrid.component.html',
   styleUrls: ['./slickgrid.component.css']
 })
-export class SlickgridComponent implements OnInit, AfterViewInit {
+export class SlickgridComponent implements OnInit {
 
   @Input() columnDefinitions: Column[];
   @Input() gridOptions: GridOption;
   @Input() dataset: any[];
+  @Input() pageCount: number;
 
   @ViewChild('slickgridGrid') slickgridGrid: SlickgridGridComponent;
   @ViewChild('slickgridPagination') slickgridPagination: SlickgridPaginationComponent;
@@ -22,12 +23,6 @@ export class SlickgridComponent implements OnInit, AfterViewInit {
     if (this.slickgridPagination) {
       this.slickgridGrid.paginationComponent = this.slickgridPagination;
     }
-  }
-
-  ngAfterViewInit() {
-    setTimeout(() => {
-      this.slickgridPagination.pageCount = 6;
-    }, 0);
   }
 
   filterChanged(event: FilterChangedArgs) {
@@ -48,7 +43,7 @@ export class SlickgridComponent implements OnInit, AfterViewInit {
   updateGridData() {
     setTimeout(() => {
       this.slickgridGrid.dataset = this.dataset;
-      this.slickgridPagination.pageCount = 6;
+      this.slickgridPagination.pageCount = this.pageCount;
     }, 750);
   }
 }

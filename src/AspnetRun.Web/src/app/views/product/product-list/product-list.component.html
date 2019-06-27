@@ -8,7 +8,9 @@
                 </div>
                 <div class="card-body" id="page">
                     <div class="form-group row">
-                        <slickgrid [columnDefinitions]="columnDefinitions" [dataset]="products"></slickgrid>
+                        <slickgrid [columnDefinitions]="columnDefinitions" [dataset]="productList.products"
+                            [pageCount]="productList.pageCount">
+                        </slickgrid>
                     </div>
                 </div>
             </div>

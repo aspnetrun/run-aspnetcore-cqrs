@@ -76,7 +76,6 @@ export class SlickgridGridComponent implements BackendService {
     }
 
     this._dataset = dataProvider;
-    //this._dataset = rawData;
     this.paginationComponent.processing = false;
   }
 
@@ -89,16 +88,9 @@ export class SlickgridGridComponent implements BackendService {
   pagination: Pagination;
 
 
-  @Output('onFilterChanged') onFilterChanged_: EventEmitter<FilterChangedArgs> = new EventEmitter<FilterChangedArgs>();
-  @Output('onPaginationChanged') onPaginationChanged_: EventEmitter<PaginationChangedArgs> = new EventEmitter<PaginationChangedArgs>();
-  @Output('onSortChanged') onSortChanged_: EventEmitter<SortChangedArgs> = new EventEmitter<SortChangedArgs>();
-
-  sortedGridColumn = '';
-  currentPage = 1;
-  filteredGridColumns = '';
-
-  // Data
-
+  @Output('onFilterChanged') _onFilterChanged: EventEmitter<FilterChangedArgs> = new EventEmitter<FilterChangedArgs>();
+  @Output('onPaginationChanged') _onPaginationChanged: EventEmitter<PaginationChangedArgs> = new EventEmitter<PaginationChangedArgs>();
+  @Output('onSortChanged') _onSortChanged: EventEmitter<SortChangedArgs> = new EventEmitter<SortChangedArgs>();
 
   // Injected functions
   private _onRowDoubleClick: Function = new Function();
@@ -159,73 +151,31 @@ export class SlickgridGridComponent implements BackendService {
     this.backendServiceOption = { ...this.backendServiceOption, ...backendServiceOption };
   }
 
-  /**
-   * FILTERING EMIT EVENT
-   * @param event
-   * @param args
-   */
   processOnFilterChanged(event: Event, args: FilterChangedArgs): Promise<string> {
-    this.filteredGridColumns = '';
     let timing = 0;
     if (event.type === 'keyup' || event.type === 'keydown') {
       timing = DEFAULT_FILTER_TYPING_DEBOUNCE;
       clearTimeout(timer);
     }
     timer = setTimeout(() => {
-      this.filteredGridColumns = '';
-      for (let idx = 0; idx < this.columnDefinitions.length; idx++) {
-        if (args.columnFilters.hasOwnProperty(this.columnDefinitions[idx].id)) {
-          this.filteredGridColumns += args.columnFilters[this.columnDefinitions[idx].id].searchTerms[0] + '|';
-        } else {
-          this.filteredGridColumns += 'All|';
-        }
-      }
-
       // Reset to the first page
       this.paginationComponent.pageNumber = 1;
-      this.currentPage = 1;
 
       // dispatch event
-      this.onFilterChanged_.emit(args);
+      this._onFilterChanged.emit(args);
     }, timing);
 
     return null;
   }
 
-  /**
-   * PAGINATION EMIT EVENT
-   * @param event
-   * @param args
-   */
   processOnPaginationChanged(event: Event, args: PaginationChangedArgs) {
-    this.currentPage = args.newPage;
-    this.onPaginationChanged_.emit(args);
+    this._onPaginationChanged.emit(args);
     return 'onPaginationChanged';
   }
 
-  /**
-   * SORT EMIT EVENT
-   * @param event
-   * @param args
-   */
   processOnSortChanged(event: Event, args: SortChangedArgs) {
-    this.sortedGridColumn = '';
-    const sortDirection = '|' + args.sortCols[0].sortAsc + '|';
-    for (let idx = 0; idx < this.columnDefinitions.length; idx++) {
-      if (this.columnDefinitions[idx].field === args.sortCols[0].sortCol.field) {
-        this.sortedGridColumn = '' + idx + sortDirection;
-      }
-    }
-    this.onSortChanged_.emit(args);
+    this._onSortChanged.emit(args);
     return 'onSortChanged';
-  }
-
-  getFilteredGridColumns() {
-    return this.filteredGridColumns;
-  }
-
-  getSortedGridColumn() {
-    return this.sortedGridColumn;
   }
   /******** Pagination+Sot+Filter service: END *****************/
 

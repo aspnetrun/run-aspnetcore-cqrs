@@ -10,8 +10,7 @@ import { Column, Formatter, Formatters, OnEventArgs, FieldType } from 'angular-s
 })
 export class ProductListComponent implements OnInit {
   columnDefinitions: Column[] = [];
-  products: IProduct[] = [];
-  productName: string = '';
+  productList: { products: IProduct[], pageCount: number } = { products: [], pageCount: 1 };
 
   constructor(private dataService: ProductDataService, private router: Router, route: ActivatedRoute) {
     route.params.subscribe(() => {
@@ -38,8 +37,8 @@ export class ProductListComponent implements OnInit {
   }
 
   getProducts() {
-    this.dataService.getProductsByName(this.productName).subscribe((products: IProduct[]) => {
-      this.products = products;
+    this.dataService.getProductsByName("").subscribe((products: IProduct[]) => {
+      this.productList.products = products;
     });
   }
 }
