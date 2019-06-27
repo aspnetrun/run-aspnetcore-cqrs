@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductDataService } from 'src/app/core/services/product-data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IProduct } from 'src/app/shared/interfaces';
-import { Column, GridOption, Formatter, Formatters, OnEventArgs, FieldType } from 'angular-slickgrid';
+import { Column, Formatter, Formatters, OnEventArgs, FieldType } from 'angular-slickgrid';
 
 @Component({
   templateUrl: './product-list.component.html',
@@ -10,7 +10,6 @@ import { Column, GridOption, Formatter, Formatters, OnEventArgs, FieldType } fro
 })
 export class ProductListComponent implements OnInit {
   columnDefinitions: Column[] = [];
-  gridOptions: GridOption = {};
   products: IProduct[] = [];
   productName: string = '';
 
@@ -36,27 +35,6 @@ export class ProductListComponent implements OnInit {
       { id: 'UnitPrice', name: 'Unit Price', field: 'unitPrice', sortable: true, filterable: true, filterSearchType: FieldType.date },
       { id: 'Category', name: 'Category', field: 'category.name', formatter: this.categoryFormatter, sortable: true, filterable: true },
     ];
-
-    this.gridOptions = {
-      autoHeight: true,
-      asyncEditorLoading: false,
-      autoEdit: false,
-      autoResize: {
-        containerId: 'page',
-        sidePadding: 0
-      },
-      // locale: 'fr',
-      enableColumnPicker: true,
-      enableCellNavigation: true,
-      enableRowSelection: true,
-      enableCheckboxSelector: false,
-      enableFiltering: true,
-      //rowHeight: 23,
-      forceFitColumns: true,
-      enableAutoTooltip: true,
-      enableGridMenu: true,
-      enablePagination: false
-    };
   }
 
   getProducts() {

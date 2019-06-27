@@ -27,13 +27,6 @@ export class SlickgridComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     setTimeout(() => {
       this.slickgridPagination.pageCount = 6;
-      return;
-      this.slickgridPagination.processing = true;
-
-      this.slickgridGrid.dataset = this.dataset;
-      this.slickgridPagination.pageCount = 6;
-
-      this.slickgridPagination.processing = false;
     }, 0);
   }
 

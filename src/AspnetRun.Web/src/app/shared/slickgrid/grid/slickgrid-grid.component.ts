@@ -1,6 +1,6 @@
 import { Component, Input, EventEmitter, Output, ViewChild } from '@angular/core';
 import {
-  AngularSlickgridComponent, Column, FieldType, GridOption, BackendService,
+  AngularSlickgridComponent, Column, GridOption, BackendService,
   BackendServiceOption, FilterChangedArgs, PaginationChangedArgs, SortChangedArgs, Pagination
 } from 'angular-slickgrid';
 import { SlickgridPaginationComponent } from '../pagination/slickgrid-pagination.component';
@@ -16,6 +16,7 @@ const DEFAULT_FILTER_TYPING_DEBOUNCE = 750;
 export class SlickgridGridComponent implements BackendService {
   _columnDefinitions: Column[];
   _gridOptions: GridOption = {
+    autoHeight: true,
     asyncEditorLoading: false,
     autoEdit: false,
     autoResize: {
@@ -48,7 +49,7 @@ export class SlickgridGridComponent implements BackendService {
   }
   @Input('gridOptions')
   set gridOptions(gridOption: GridOption) {
-    //this._gridOptions = gridOption;
+    this._gridOptions = { ...this._gridOptions, ...gridOption };
   }
 
   get dataset(): any {
@@ -79,23 +80,12 @@ export class SlickgridGridComponent implements BackendService {
     this.paginationComponent.processing = false;
   }
 
-
-  @Input() gridHeight = 100;
-  @Input() gridWidth = 600;
-
-  gridHeightString: string;
-  gridWidthString: string;
-
   @ViewChild('angularSlickgrid') angularSlickgrid: AngularSlickgridComponent;
 
   gridObj: any;
   dataviewObj: any;
-  updatedObject: any;
-  isMultiSelect = true;
-  selectedObjects: any[];
-  selectedObject: any;
 
-  options: BackendServiceOption;
+  backendServiceOption: BackendServiceOption;
   pagination: Pagination;
 
 
@@ -113,8 +103,6 @@ export class SlickgridGridComponent implements BackendService {
   // Injected functions
   private _onRowDoubleClick: Function = new Function();
   private _onRowClick: Function = new Function();
-
-
   private _selectedRow: any;
 
   // Initialized to a fake pagination object
@@ -159,16 +147,16 @@ export class SlickgridGridComponent implements BackendService {
     return 'buildQuery...';
   }
 
-  init(serviceOptions: BackendServiceOption, pagination?: Pagination): void {
-    this.options = serviceOptions;
+  init(backendServiceOption: BackendServiceOption, pagination?: Pagination): void {
+    this.backendServiceOption = backendServiceOption;
     this.pagination = pagination;
   }
 
   resetPaginationOptions() {
   }
 
-  updateOptions(serviceOptions?: BackendServiceOption) {
-    this.options = { ...this.options, ...serviceOptions };
+  updateOptions(backendServiceOption?: BackendServiceOption) {
+    this.backendServiceOption = { ...this.backendServiceOption, ...backendServiceOption };
   }
 
   /**
@@ -186,8 +174,8 @@ export class SlickgridGridComponent implements BackendService {
     timer = setTimeout(() => {
       this.filteredGridColumns = '';
       for (let idx = 0; idx < this.columnDefinitions.length; idx++) {
-        if (args.columnFilters.hasOwnProperty(this.columnDefinitions[idx].field)) {
-          this.filteredGridColumns += args.columnFilters[this.columnDefinitions[idx].field].searchTerms[0] + '|';
+        if (args.columnFilters.hasOwnProperty(this.columnDefinitions[idx].id)) {
+          this.filteredGridColumns += args.columnFilters[this.columnDefinitions[idx].id].searchTerms[0] + '|';
         } else {
           this.filteredGridColumns += 'All|';
         }
