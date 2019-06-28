@@ -16,7 +16,7 @@ const DEFAULT_FILTER_TYPING_DEBOUNCE = 750;
 export class SlickgridTableComponent implements BackendService {
   _columnDefinitions: Column[];
   _gridOptions: GridOption = {
-    datasetIdPropertyName: 'rowId',
+    datasetIdPropertyName: 'rowNumber',
     autoHeight: true,
     asyncEditorLoading: false,
     autoEdit: false,
@@ -63,7 +63,7 @@ export class SlickgridTableComponent implements BackendService {
     for (let index = 0; rawData && index < rawData.length; index++) {
       const row = <Object>rawData[index];
       const idObj = {
-        rowId: index
+        rowNumber: index
       };
 
       let key: string;
