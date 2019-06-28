@@ -11,8 +11,8 @@ namespace AspnetRun.Core.Specifications
             AddInclude(p => p.Category);
         }
 
-        public ProductWithCategorySpecification(int categoryId)
-            : base(p => p.CategoryId == categoryId)
+        public ProductWithCategorySpecification(int productId)
+            : base(p => p.Id == productId)
         {
             AddInclude(p => p.Category);
         }

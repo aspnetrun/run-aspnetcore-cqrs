@@ -27,7 +27,7 @@
             if (item.IsTransient() || IsTransient())
                 return false;
             else
-                return item == this;
+                return false;//return item == this;
         }
 
         public override int GetHashCode()
