@@ -6,6 +6,6 @@ namespace AspnetRun.Core.Repositories
 {
     public interface ICartRepository : IRepository<Cart>
     {
-        Task<Cart> GetByUserNameAsync(string userName);
+        Task<Cart> GetByCustomerIdAsync(int customerId);
     }
 }

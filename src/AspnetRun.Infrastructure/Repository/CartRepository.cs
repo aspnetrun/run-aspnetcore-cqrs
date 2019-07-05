@@ -14,9 +14,9 @@ namespace AspnetRun.Infrastructure.Repository
         {
         }
 
-        public async Task<Cart> GetByUserNameAsync(string userName)
+        public async Task<Cart> GetByCustomerIdAsync(int customerId)
         {
-            var spec = new CartWithItemsSpecification(userName);
+            var spec = new CartWithItemsSpecification(customerId);
             return (await GetAsync(spec)).FirstOrDefault();
         }
     }

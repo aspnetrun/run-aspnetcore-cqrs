@@ -28,6 +28,8 @@ namespace AspnetRun.Infrastructure.Data
             modelBuilder.RegisterConvention();
 
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.RegisterCustomMappings(typeToRegisters);
         }
 
         public async Task BeginTransactionAsync()
@@ -109,6 +111,19 @@ namespace AspnetRun.Infrastructure.Data
             foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
             {
                 relationship.DeleteBehavior = DeleteBehavior.Restrict;
+            }
+        }
+
+        internal static void RegisterCustomMappings(this ModelBuilder modelBuilder, IEnumerable<Type> typeToRegisters)
+        {
+            var customModelBuilderTypes = typeToRegisters.Where(x => typeof(ICustomModelBuilder).IsAssignableFrom(x));
+            foreach (var builderType in customModelBuilderTypes)
+            {
+                if (builderType != null && builderType != typeof(ICustomModelBuilder))
+                {
+                    var builder = (ICustomModelBuilder)Activator.CreateInstance(builderType);
+                    builder.Build(modelBuilder);
+                }
             }
         }
     }

@@ -27,11 +27,15 @@ namespace AspnetRun.Infrastructure.Migrations
 
                     b.Property<string>("AddressLine");
 
+                    b.Property<string>("AddressTitle");
+
                     b.Property<string>("City");
 
                     b.Property<string>("CompanyName");
 
                     b.Property<string>("Country");
+
+                    b.Property<int?>("CustomerId");
 
                     b.Property<string>("EmailAddress");
 
@@ -47,28 +51,9 @@ namespace AspnetRun.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CustomerId");
+
                     b.ToTable("Address");
-                });
-
-            modelBuilder.Entity("AspnetRun.Core.Entities.Blog", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description");
-
-                    b.Property<string>("ImageFile");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(80);
-
-                    b.Property<string>("Summary");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Blog");
                 });
 
             modelBuilder.Entity("AspnetRun.Core.Entities.Cart", b =>
@@ -77,9 +62,11 @@ namespace AspnetRun.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("UserName");
+                    b.Property<int>("CustomerId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
 
                     b.ToTable("Cart");
                 });
@@ -130,59 +117,29 @@ namespace AspnetRun.Infrastructure.Migrations
                     b.ToTable("Category");
                 });
 
-            modelBuilder.Entity("AspnetRun.Core.Entities.Compare", b =>
+            modelBuilder.Entity("AspnetRun.Core.Entities.Customer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("UserName");
+                    b.Property<string>("CitizenId");
+
+                    b.Property<int>("DefaultAddressId");
+
+                    b.Property<string>("Email");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Phone");
+
+                    b.Property<string>("Surname");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Compare");
-                });
+                    b.HasIndex("DefaultAddressId");
 
-            modelBuilder.Entity("AspnetRun.Core.Entities.Contact", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Email")
-                        .IsRequired();
-
-                    b.Property<string>("Message")
-                        .IsRequired();
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.Property<string>("Phone")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Contact");
-                });
-
-            modelBuilder.Entity("AspnetRun.Core.Entities.List", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description");
-
-                    b.Property<string>("ImageFile");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(80);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("List");
+                    b.ToTable("Customer");
                 });
 
             modelBuilder.Entity("AspnetRun.Core.Entities.Order", b =>
@@ -191,21 +148,23 @@ namespace AspnetRun.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("BillingAddressId");
+                    b.Property<int>("BillingAddressId");
+
+                    b.Property<int>("CustomerId");
 
                     b.Property<decimal>("GrandTotal");
 
                     b.Property<int>("PaymentMethod");
 
-                    b.Property<int?>("ShippingAddressId");
+                    b.Property<int>("ShippingAddressId");
 
                     b.Property<int>("Status");
-
-                    b.Property<string>("UserName");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BillingAddressId");
+
+                    b.HasIndex("CustomerId");
 
                     b.HasIndex("ShippingAddressId");
 
@@ -272,45 +231,7 @@ namespace AspnetRun.Infrastructure.Migrations
                     b.ToTable("Product");
                 });
 
-            modelBuilder.Entity("AspnetRun.Core.Entities.ProductCompare", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CompareId");
-
-                    b.Property<int>("ProductId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CompareId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductCompare");
-                });
-
-            modelBuilder.Entity("AspnetRun.Core.Entities.ProductList", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ListId");
-
-                    b.Property<int>("ProductId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ListId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductList");
-                });
-
-            modelBuilder.Entity("AspnetRun.Core.Entities.ProductRelatedProduct", b =>
+            modelBuilder.Entity("AspnetRun.Core.Entities.ProductSpecification", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -318,57 +239,15 @@ namespace AspnetRun.Infrastructure.Migrations
 
                     b.Property<int>("ProductId");
 
-                    b.Property<int>("RelatedProductId");
+                    b.Property<int>("SpecificationId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
 
-                    b.HasIndex("RelatedProductId");
+                    b.HasIndex("SpecificationId");
 
-                    b.ToTable("ProductRelatedProduct");
-                });
-
-            modelBuilder.Entity("AspnetRun.Core.Entities.ProductWishlist", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ProductId");
-
-                    b.Property<int>("WishlistId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("WishlistId");
-
-                    b.ToTable("ProductWishlist");
-                });
-
-            modelBuilder.Entity("AspnetRun.Core.Entities.Review", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Comment");
-
-                    b.Property<string>("EMail");
-
-                    b.Property<string>("Name");
-
-                    b.Property<int?>("ProductId");
-
-                    b.Property<double>("Star");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("Review");
+                    b.ToTable("ProductSpecification");
                 });
 
             modelBuilder.Entity("AspnetRun.Core.Entities.Specification", b =>
@@ -381,43 +260,25 @@ namespace AspnetRun.Infrastructure.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<int?>("ProductId");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
 
                     b.ToTable("Specification");
                 });
 
-            modelBuilder.Entity("AspnetRun.Core.Entities.Tag", b =>
+            modelBuilder.Entity("AspnetRun.Core.Entities.Address", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name");
-
-                    b.Property<int?>("ProductId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("Tag");
+                    b.HasOne("AspnetRun.Core.Entities.Customer")
+                        .WithMany("Addresses")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("AspnetRun.Core.Entities.Wishlist", b =>
+            modelBuilder.Entity("AspnetRun.Core.Entities.Cart", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("UserName");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Wishlist");
+                    b.HasOne("AspnetRun.Core.Entities.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("AspnetRun.Core.Entities.CartItem", b =>
@@ -433,11 +294,24 @@ namespace AspnetRun.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
+            modelBuilder.Entity("AspnetRun.Core.Entities.Customer", b =>
+                {
+                    b.HasOne("AspnetRun.Core.Entities.Address", "DefaultAddress")
+                        .WithMany()
+                        .HasForeignKey("DefaultAddressId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
             modelBuilder.Entity("AspnetRun.Core.Entities.Order", b =>
                 {
                     b.HasOne("AspnetRun.Core.Entities.Address", "BillingAddress")
                         .WithMany()
                         .HasForeignKey("BillingAddressId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("AspnetRun.Core.Entities.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("AspnetRun.Core.Entities.Address", "ShippingAddress")
@@ -467,79 +341,16 @@ namespace AspnetRun.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("AspnetRun.Core.Entities.ProductCompare", b =>
-                {
-                    b.HasOne("AspnetRun.Core.Entities.Compare", "Compare")
-                        .WithMany("ProductCompares")
-                        .HasForeignKey("CompareId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("AspnetRun.Core.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("AspnetRun.Core.Entities.ProductList", b =>
-                {
-                    b.HasOne("AspnetRun.Core.Entities.List", "List")
-                        .WithMany("ProductLists")
-                        .HasForeignKey("ListId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("AspnetRun.Core.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("AspnetRun.Core.Entities.ProductRelatedProduct", b =>
+            modelBuilder.Entity("AspnetRun.Core.Entities.ProductSpecification", b =>
                 {
                     b.HasOne("AspnetRun.Core.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("AspnetRun.Core.Entities.Product", "RelatedProduct")
-                        .WithMany()
-                        .HasForeignKey("RelatedProductId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("AspnetRun.Core.Entities.ProductWishlist", b =>
-                {
-                    b.HasOne("AspnetRun.Core.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("AspnetRun.Core.Entities.Wishlist", "Wishlist")
-                        .WithMany("ProductWishlists")
-                        .HasForeignKey("WishlistId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("AspnetRun.Core.Entities.Review", b =>
-                {
-                    b.HasOne("AspnetRun.Core.Entities.Product")
-                        .WithMany("Reviews")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("AspnetRun.Core.Entities.Specification", b =>
-                {
-                    b.HasOne("AspnetRun.Core.Entities.Product")
                         .WithMany("Specifications")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Restrict);
-                });
 
-            modelBuilder.Entity("AspnetRun.Core.Entities.Tag", b =>
-                {
-                    b.HasOne("AspnetRun.Core.Entities.Product")
-                        .WithMany("Tags")
-                        .HasForeignKey("ProductId")
+                    b.HasOne("AspnetRun.Core.Entities.Specification", "Specification")
+                        .WithMany()
+                        .HasForeignKey("SpecificationId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618

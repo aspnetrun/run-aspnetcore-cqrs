@@ -5,14 +5,8 @@ namespace AspnetRun.Core.Specifications
 {
     public class CartWithItemsSpecification : BaseSpecification<Cart>
     {
-        public CartWithItemsSpecification(string userName)
-            : base(p => p.UserName.Contains(userName))
-        {
-            AddInclude(p => p.Items);
-        }
-
-        public CartWithItemsSpecification(int cartId)
-            : base(p => p.Id == cartId)
+        public CartWithItemsSpecification(int customerId)
+            : base(p => p.CustomerId == customerId)
         {
             AddInclude(p => p.Items);
         }

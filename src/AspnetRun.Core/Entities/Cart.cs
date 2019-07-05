@@ -6,7 +6,9 @@ namespace AspnetRun.Core.Entities
 {
     public class Cart : Entity
     {
-        public string UserName { get; set; }
+        public int CustomerId { get; set; }
+        public Customer Customer { get; set; }
+
         public List<CartItem> Items { get; set; } = new List<CartItem>();
 
         public void AddItem(int productId, int quantity = 1, string color = "Black", decimal unitPrice = 0)

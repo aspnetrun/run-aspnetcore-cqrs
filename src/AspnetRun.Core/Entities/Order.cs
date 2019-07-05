@@ -5,29 +5,17 @@ namespace AspnetRun.Core.Entities
 {
     public class Order : Entity
     {
-        public string UserName { get; set; }
+        public int CustomerId { get; set; }
+        public Customer Customer { get; set; }
+        public int BillingAddressId { get; set; }
         public Address BillingAddress { get; set; }
+        public int ShippingAddressId { get; set; }
         public Address ShippingAddress { get; set; }
         public PaymentMethod PaymentMethod { get; set; }
         public OrderStatus Status { get; set; }
         public decimal GrandTotal { get; set; }
 
         public List<OrderItem> Items { get; set; } = new List<OrderItem>();
-    }
-
-    // Value Object    
-    public class Address : Entity
-    {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string EmailAddress { get; set; }
-        public string PhoneNo { get; set; }
-        public string CompanyName { get; set; }
-        public string AddressLine { get; set; }
-        public string Country { get; set; }
-        public string City { get; set; }
-        public string State { get; set; }
-        public string ZipCode { get; set; }
     }
 
     public enum OrderStatus

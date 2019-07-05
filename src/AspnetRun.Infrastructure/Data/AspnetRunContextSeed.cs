@@ -1,8 +1,6 @@
 ﻿using AspnetRun.Core.Entities;
 using AspnetRun.Core.Repositories;
 using AspnetRun.Core.Repositories.Base;
-using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,8 +11,11 @@ namespace AspnetRun.Infrastructure.Data
     {
         private readonly AspnetRunContext _aspnetRunContext;
         private readonly IProductRepository _productRepository;
+        private readonly IRepository<ProductSpecification> _productSpecificationRepository;
         private readonly IRepository<Category> _categoryRepository;
         private readonly IRepository<Specification> _specificationRepository;
+        private readonly IRepository<Customer> _customerRepository;
+        private readonly IRepository<Address> _addressRepository;
         private readonly IRepository<Cart> _cartRepository;
         private readonly IRepository<Order> _orderRepository;
 
@@ -22,14 +23,20 @@ namespace AspnetRun.Infrastructure.Data
             AspnetRunContext aspnetRunContext,
             IProductRepository productRepository,
             IRepository<Category> categoryRepository,
+            IRepository<ProductSpecification> productSpecificationRepository,
             IRepository<Specification> specificationRepository,
+            IRepository<Customer> customerRepository,
+            IRepository<Address> addressRepository,
             IRepository<Cart> cartRepository,
             IRepository<Order> orderRepository)
         {
             _aspnetRunContext = aspnetRunContext;
             _productRepository = productRepository;
             _categoryRepository = categoryRepository;
+            _productSpecificationRepository = productSpecificationRepository;
             _specificationRepository = specificationRepository;
+            _customerRepository = customerRepository;
+            _addressRepository = addressRepository;
             _cartRepository = cartRepository;
             _orderRepository = orderRepository;
         }
@@ -40,12 +47,15 @@ namespace AspnetRun.Infrastructure.Data
             // _aspnetRunContext.Database.Migrate();
             // _aspnetRunContext.Database.EnsureCreated();
 
-            // categories - specifications - reviews - tags
+            // categories - specifications
             await SeedCategoriesAsync();
             await SeedSpecificationsAsync();
 
-            // products - related products - lists
+            // products
             await SeedProductsAsync();
+
+            // customers
+            await SeedCustomersAsync();
 
             // cart and cart items - order and order items
             await SeedCartAndItemsAsync();
@@ -79,36 +89,9 @@ namespace AspnetRun.Infrastructure.Data
             {
                 var specifications = new List<Specification>()
                 {
-                    new Specification
-                    {
-                        Name = "Full HD Camcorder",
-                        Description = "Full HD Camcorder"
-                    },
-                    new Specification
-                    {
-                        Name = "Dual Video Recording",
-                        Description = "Dual Video Recording"
-                    },
-                    new Specification
-                    {
-                        Name = "X type battery operation",
-                        Description = "X type battery operation"
-                    },
-                    new Specification
-                    {
-                        Name = "Full HD Camcorder",
-                        Description = "Full HD Camcorder"
-                    },
-                    new Specification
-                    {
-                        Name = "Dual Video Recording",
-                        Description = "Dual Video Recording"
-                    },
-                    new Specification
-                    {
-                        Name = "X type battery operation",
-                        Description = "X type battery operation"
-                    }
+                    new Specification { Name = "Full HD Camcorder", Description = "Full HD Camcorder" },
+                    new Specification { Name = "Dual Video Recording", Description = "Dual Video Recording" },
+                    new Specification { Name = "X type battery operation", Description = "X type battery operation" },
                 };
 
                 await _specificationRepository.AddRangeAsync(specifications);
@@ -132,8 +115,7 @@ namespace AspnetRun.Infrastructure.Data
                         UnitPrice = 295,
                         UnitsInStock = 10,
                         Star = 4.3,
-                        CategoryId = 4,
-                        Specifications = _specificationRepository.Table.ToList()
+                        Category = _categoryRepository.Table.FirstOrDefault(c => c.Name == "Phone & Tablet")
                     },
                     new Product()
                     {
@@ -145,8 +127,7 @@ namespace AspnetRun.Infrastructure.Data
                         UnitPrice = 285,
                         UnitsInStock = 10,
                         Star = 4.3,
-                        CategoryId = 4,
-                        Specifications = _specificationRepository.Table.ToList()
+                        Category = _categoryRepository.Table.FirstOrDefault(c => c.Name == "Phone & Tablet")
                     },
                     new Product()
                     {
@@ -158,8 +139,7 @@ namespace AspnetRun.Infrastructure.Data
                         UnitPrice = 360,
                         UnitsInStock = 10,
                         Star = 4.3,
-                        CategoryId = 4,
-                        Specifications = _specificationRepository.Table.ToList()
+                        Category = _categoryRepository.Table.FirstOrDefault(c => c.Name == "Phone & Tablet")
                     },
                     new Product()
                     {
@@ -171,8 +151,7 @@ namespace AspnetRun.Infrastructure.Data
                         UnitPrice = 220,
                         UnitsInStock = 10,
                         Star = 4.3,
-                        CategoryId = 4,
-                        Specifications = _specificationRepository.Table.ToList()
+                        Category = _categoryRepository.Table.FirstOrDefault(c => c.Name == "Phone & Tablet")
                     },
                     // Camera                
                     new Product()
@@ -185,8 +164,7 @@ namespace AspnetRun.Infrastructure.Data
                         UnitPrice = 145,
                         UnitsInStock = 10,
                         Star = 4.3,
-                        CategoryId = 5,
-                        Specifications = _specificationRepository.Table.ToList()
+                        Category = _categoryRepository.Table.FirstOrDefault(c => c.Name == "Camera & Printer")
                     },
                     new Product()
                     {
@@ -198,8 +176,7 @@ namespace AspnetRun.Infrastructure.Data
                         UnitPrice = 199,
                         UnitsInStock = 10,
                         Star = 4.3,
-                        CategoryId = 5,
-                        Specifications = _specificationRepository.Table.ToList()
+                        Category = _categoryRepository.Table.FirstOrDefault(c => c.Name == "Camera & Printer")
                     },
                     new Product()
                     {
@@ -211,8 +188,7 @@ namespace AspnetRun.Infrastructure.Data
                         UnitPrice = 580,
                         UnitsInStock = 10,
                         Star = 4.3,
-                        CategoryId = 5,
-                        Specifications = _specificationRepository.Table.ToList()
+                        Category = _categoryRepository.Table.FirstOrDefault(c => c.Name == "Camera & Printer")
                     },
                     new Product()
                     {
@@ -224,8 +200,7 @@ namespace AspnetRun.Infrastructure.Data
                         UnitPrice = 320,
                         UnitsInStock = 10,
                         Star = 4.3,
-                        CategoryId = 5,
-                        Specifications = _specificationRepository.Table.ToList()
+                        Category = _categoryRepository.Table.FirstOrDefault(c => c.Name == "Camera & Printer")
                     },
                     // Printer
                     new Product()
@@ -238,8 +213,7 @@ namespace AspnetRun.Infrastructure.Data
                         UnitPrice = 210,
                         UnitsInStock = 10,
                         Star = 4.3,
-                        CategoryId = 5,
-                        Specifications = _specificationRepository.Table.ToList()
+                        Category = _categoryRepository.Table.FirstOrDefault(c => c.Name == "Camera & Printer")
                     },
                     // Game                
                     new Product()
@@ -252,8 +226,7 @@ namespace AspnetRun.Infrastructure.Data
                         UnitPrice = 295,
                         UnitsInStock = 10,
                         Star = 4.3,
-                        CategoryId = 6,
-                        Specifications = _specificationRepository.Table.ToList()
+                        Category = _categoryRepository.Table.FirstOrDefault(c => c.Name == "Games")
                     },
                     new Product()
                     {
@@ -265,8 +238,7 @@ namespace AspnetRun.Infrastructure.Data
                         UnitPrice = 285,
                         UnitsInStock = 10,
                         Star = 4.3,
-                        CategoryId = 6,
-                        Specifications = _specificationRepository.Table.ToList()
+                        Category = _categoryRepository.Table.FirstOrDefault(c => c.Name == "Games")
                     },
                     // Laptop      
                     new Product()
@@ -279,8 +251,7 @@ namespace AspnetRun.Infrastructure.Data
                         UnitPrice = 295,
                         UnitsInStock = 10,
                         Star = 4.3,
-                        CategoryId = 1,
-                        Specifications = _specificationRepository.Table.ToList()
+                        Category = _categoryRepository.Table.FirstOrDefault(c => c.Name == "Laptop")
                     },
                     // Drone                
                     new Product()
@@ -293,8 +264,7 @@ namespace AspnetRun.Infrastructure.Data
                         UnitPrice = 275,
                         UnitsInStock = 10,
                         Star = 4.3,
-                        CategoryId = 2,
-                        Specifications = _specificationRepository.Table.ToList()
+                        Category = _categoryRepository.Table.FirstOrDefault(c => c.Name == "Drone")
                     },
                     // Accessories
                     new Product()
@@ -307,8 +277,7 @@ namespace AspnetRun.Infrastructure.Data
                         UnitPrice = 110,
                         UnitsInStock = 10,
                         Star = 4.3,
-                        CategoryId = 7,
-                        Specifications = _specificationRepository.Table.ToList()
+                        Category = _categoryRepository.Table.FirstOrDefault(c => c.Name == "Accessories")
                     },
                     // Watch
                     new Product()
@@ -321,8 +290,7 @@ namespace AspnetRun.Infrastructure.Data
                         UnitPrice = 365,
                         UnitsInStock = 10,
                         Star = 4.3,
-                        CategoryId = 8,
-                        Specifications = _specificationRepository.Table.ToList()
+                        Category = _categoryRepository.Table.FirstOrDefault(c => c.Name == "Watch")
                     },
                     new Product()
                     {
@@ -334,8 +302,7 @@ namespace AspnetRun.Infrastructure.Data
                         UnitPrice = 189,
                         UnitsInStock = 10,
                         Star = 4.3,
-                        CategoryId = 8,
-                        Specifications = _specificationRepository.Table.ToList()
+                        Category = _categoryRepository.Table.FirstOrDefault(c => c.Name == "Watch")
                     },
                     // TV & Audio
                     new Product()
@@ -348,8 +315,7 @@ namespace AspnetRun.Infrastructure.Data
                         UnitPrice = 210,
                         UnitsInStock = 10,
                         Star = 4.3,
-                        CategoryId = 3,
-                        Specifications = _specificationRepository.Table.ToList()
+                        Category = _categoryRepository.Table.FirstOrDefault(c => c.Name == "TV & Audio")
                     },
                     new Product()
                     {
@@ -361,8 +327,7 @@ namespace AspnetRun.Infrastructure.Data
                         UnitPrice = 360,
                         UnitsInStock = 10,
                         Star = 4.3,
-                        CategoryId = 3,
-                        Specifications = _specificationRepository.Table.ToList()
+                        Category = _categoryRepository.Table.FirstOrDefault(c => c.Name == "TV & Audio")
                     },
                     new Product()
                     {
@@ -374,8 +339,7 @@ namespace AspnetRun.Infrastructure.Data
                         UnitPrice = 185,
                         UnitsInStock = 10,
                         Star = 4.3,
-                        CategoryId = 3,
-                        Specifications = _specificationRepository.Table.ToList()
+                        Category = _categoryRepository.Table.FirstOrDefault(c => c.Name == "TV & Audio")
                     },
                     // Home & Kitchen Appliances
                     new Product()
@@ -388,8 +352,7 @@ namespace AspnetRun.Infrastructure.Data
                         UnitPrice = 210,
                         UnitsInStock = 10,
                         Star = 4.3,
-                        CategoryId = 9,
-                        Specifications = _specificationRepository.Table.ToList()
+                        Category = _categoryRepository.Table.FirstOrDefault(c => c.Name == "Home & Kitchen Appliances")
                     },
                     new Product()
                     {
@@ -401,8 +364,7 @@ namespace AspnetRun.Infrastructure.Data
                         UnitPrice = 365,
                         UnitsInStock = 10,
                         Star = 4.3,
-                        CategoryId = 9,
-                        Specifications = _specificationRepository.Table.ToList()
+                        Category = _categoryRepository.Table.FirstOrDefault(c => c.Name == "Home & Kitchen Appliances")
                     },
                     new Product()
                     {
@@ -414,8 +376,7 @@ namespace AspnetRun.Infrastructure.Data
                         UnitPrice = 185,
                         UnitsInStock = 10,
                         Star = 4.3,
-                        CategoryId = 9,
-                        Specifications = _specificationRepository.Table.ToList()
+                        Category = _categoryRepository.Table.FirstOrDefault(c => c.Name == "Home & Kitchen Appliances")
                     },
                     new Product()
                     {
@@ -427,8 +388,7 @@ namespace AspnetRun.Infrastructure.Data
                         UnitPrice = 185,
                         UnitsInStock = 10,
                         Star = 4.3,
-                        CategoryId = 9,
-                        Specifications = _specificationRepository.Table.ToList()
+                        Category = _categoryRepository.Table.FirstOrDefault(c => c.Name == "Home & Kitchen Appliances")
                     },
                     new Product()
                     {
@@ -440,8 +400,7 @@ namespace AspnetRun.Infrastructure.Data
                         UnitPrice = 185,
                         UnitsInStock = 10,
                         Star = 4.3,
-                        CategoryId = 9,
-                        Specifications = _specificationRepository.Table.ToList()
+                        Category = _categoryRepository.Table.FirstOrDefault(c => c.Name == "Home & Kitchen Appliances")
                     },
                     new Product()
                     {
@@ -453,12 +412,112 @@ namespace AspnetRun.Infrastructure.Data
                         UnitPrice = 130,
                         UnitsInStock = 10,
                         Star = 4.3,
-                        CategoryId = 9,
-                        Specifications = _specificationRepository.Table.ToList()
+                        Category = _categoryRepository.Table.FirstOrDefault(c => c.Name == "Home & Kitchen Appliances")
                     }
                 };
 
                 await _productRepository.AddRangeAsync(products);
+
+                var productSpecifications = from product in _productRepository.Table
+                                            from specification in _specificationRepository.Table
+                                            select new ProductSpecification { Product = product, Specification = specification };
+
+                await _productSpecificationRepository.AddRangeAsync(productSpecifications);
+            }
+        }
+
+        private async Task SeedCustomersAsync()
+        {
+            if (!_customerRepository.Table.Any())
+            {
+                var customers = new List<Customer>()
+                {
+                    new Customer
+                    {
+                        Name = "Abdulkadir",
+                        Surname = "Genc",
+                        Phone = "05013333333",
+                        DefaultAddress = null,
+                        Email = "aspnetrun@outlook.com",
+                        CitizenId = "55555555555",
+                        Addresses = new List<Address>
+                        {
+                            new Address
+                            {
+                                AddressTitle ="Home Address",
+                                AddressLine = "Esenler",
+                                City = "Istanbul",
+                                Country = "Turkey",
+                                EmailAddress = "aspnetrun@outlook.com",
+                                FirstName = "Abdulkadir",
+                                LastName = "Genc",
+                                CompanyName = "AspnetRun",
+                                PhoneNo = "05013333333",
+                                State = "027",
+                                ZipCode = "34056"
+                            },
+                            new Address
+                            {
+                                AddressTitle ="Office Address",
+                                AddressLine = "Maslak",
+                                City = "Istanbul",
+                                Country = "Turkey",
+                                EmailAddress = "aspnetrun@outlook.com",
+                                FirstName = "Abdulkadir",
+                                LastName = "Genc",
+                                CompanyName = "AspnetRun",
+                                PhoneNo = "05013333333",
+                                State = "027",
+                                ZipCode = "34056"
+                            }
+                        }
+                    },
+                    new Customer
+                    {
+                        Name = "Mehmet",
+                        Surname = "Ozkaya",
+                        Phone = "05012222222",
+                        DefaultAddress = null,
+                        Email = "aspnetrun@outlook.com",
+                        CitizenId = "11111111111",
+                        Addresses = new List<Address>
+                        {
+                            new Address
+                            {
+                                AddressTitle ="Home Address",
+                                AddressLine = "Gungoren",
+                                City = "Istanbul",
+                                Country = "Turkey",
+                                EmailAddress = "aspnetrun@outlook.com",
+                                FirstName = "Mehmet",
+                                LastName = "Ozkaya",
+                                CompanyName = "AspnetRun",
+                                PhoneNo = "05012222222",
+                                State = "027",
+                                ZipCode = "34056"
+                            },
+                            new Address
+                            {
+                                AddressTitle = "Office Address",
+                                AddressLine = "Maslak",
+                                City = "Istanbul",
+                                Country = "Turkey",
+                                EmailAddress = "aspnetrun@outlook.com",
+                                FirstName = "Mehmet",
+                                LastName = "Ozkaya",
+                                CompanyName = "AspnetRun",
+                                PhoneNo = "05012222222",
+                                State = "027",
+                                ZipCode = "34056"
+                            }
+                        }
+                    }
+                };
+                customers.ForEach(c => c.DefaultAddress = c.Addresses.FirstOrDefault());
+                var addresses = customers.SelectMany(p => p.Addresses);
+
+                await _addressRepository.AddRangeAsync(addresses);
+                await _customerRepository.AddRangeAsync(customers);
             }
         }
 
@@ -466,11 +525,45 @@ namespace AspnetRun.Infrastructure.Data
         {
             if (!_cartRepository.Table.Any())
             {
+                var cust1 = _customerRepository.Table.FirstOrDefault(c => c.Name == "Abdulkadir");
+                var cust2 = _customerRepository.Table.FirstOrDefault(c => c.Name == "Mehmet");
+
                 var carts = new List<Cart>()
                 {
                     new Cart
                     {
-                        UserName = "mehmetozkaya@gmail.com",
+                        Customer = cust1,
+                        Items = new List<CartItem>
+                        {
+                            new CartItem
+                            {
+                                Product = _productRepository.Table.FirstOrDefault(p => p.Name == "uPhone X"),
+                                Quantity = 2,
+                                Color = "Black",
+                                UnitPrice = 295,
+                                TotalPrice = 590
+                            },
+                            new CartItem
+                            {
+                                Product = _productRepository.Table.FirstOrDefault(p => p.Name == "Game Station X 22"),
+                                Quantity = 1,
+                                Color = "Red",
+                                UnitPrice = 295,
+                                TotalPrice = 295
+                            },
+                            new CartItem
+                            {
+                                Product = _productRepository.Table.FirstOrDefault(p => p.Name == "Jackson Toster V 27"),
+                                Quantity = 1,
+                                Color = "Black",
+                                UnitPrice = 185,
+                                TotalPrice = 185
+                            }
+                        }
+                    },
+                    new Cart
+                    {
+                        Customer = cust2,
                         Items = new List<CartItem>
                         {
                             new CartItem
@@ -509,41 +602,52 @@ namespace AspnetRun.Infrastructure.Data
         {
             if (!_orderRepository.Table.Any())
             {
-                var address = new Address
-                {
-                    AddressLine = "Gungoren",
-                    City = "Istanbul",
-                    Country = "Turkey",
-                    EmailAddress = "aspnetrun@outlook.com",
-                    FirstName = "Mehmet",
-                    LastName = "Ozkaya",
-                    CompanyName = "AspnetRun",
-                    PhoneNo = "05012222222",
-                    State = "027",
-                    ZipCode = "34056"
-                };
-
-                var addressShipping = new Address
-                {
-                    AddressLine = "Gungoren",
-                    City = "Istanbul",
-                    Country = "Turkey",
-                    EmailAddress = "aspnetrun@outlook.com",
-                    FirstName = "Mehmet",
-                    LastName = "Ozkaya",
-                    CompanyName = "AspnetRun",
-                    PhoneNo = "05012222222",
-                    State = "027",
-                    ZipCode = "34056"
-                };
+                var cust1 = _customerRepository.Table.FirstOrDefault(c => c.Name == "Abdulkadir");
+                var cust2 = _customerRepository.Table.FirstOrDefault(c => c.Name == "Mehmet");
 
                 var orders = new List<Order>()
                 {
                     new Order
                     {
-                        UserName = "mehmetozkaya@gmail.com",
-                        BillingAddress = address,
-                        ShippingAddress = addressShipping,
+                        Customer = cust1,
+                        BillingAddress = cust1.Addresses.FirstOrDefault(),
+                        ShippingAddress = cust1.Addresses.FirstOrDefault(),
+                        PaymentMethod = PaymentMethod.Cash,
+                        Status = OrderStatus.Progress,
+                        GrandTotal = 347,
+                        Items = new List<OrderItem>
+                        {
+                            new OrderItem
+                            {
+                                Product = _productRepository.Table.FirstOrDefault(p => p.Name == "uPhone X"),
+                                Quantity = 2,
+                                Color = "Black",
+                                UnitPrice = 295,
+                                TotalPrice = 590
+                            },
+                            new OrderItem
+                            {
+                                Product = _productRepository.Table.FirstOrDefault(p => p.Name == "Game Station X 22"),
+                                Quantity = 1,
+                                Color = "Red",
+                                UnitPrice = 295,
+                                TotalPrice = 295
+                            },
+                            new OrderItem
+                            {
+                                Product = _productRepository.Table.FirstOrDefault(p => p.Name == "Jackson Toster V 27"),
+                                Quantity = 1,
+                                Color = "Black",
+                                UnitPrice = 185,
+                                TotalPrice = 185
+                            }
+                        }
+                    },
+                    new Order
+                    {
+                        Customer = cust2,
+                        BillingAddress = cust2.Addresses.FirstOrDefault(),
+                        ShippingAddress = cust2.Addresses.FirstOrDefault(),
                         PaymentMethod = PaymentMethod.Cash,
                         Status = OrderStatus.Progress,
                         GrandTotal = 347,
