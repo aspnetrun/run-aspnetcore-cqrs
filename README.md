@@ -40,7 +40,7 @@ These repositories are **updated regularly**. We are following Microsoft Web Tec
 
 ## Whats Including In This Repository
 We have implemented below **features over the run-aspnetcore boilerplate template**. You can change **real-world features** as your business requirements;
-* E&E e-commerce theme implementation
+* Dashboard theme implementation
 * Full development of e-commerce use cases of northwind database
 * Business rule check, domain policy apply and validations
 * Authentication, identity module and identity configuration
