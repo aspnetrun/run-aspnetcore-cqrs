@@ -1,6 +1,9 @@
 ﻿using AspnetRun.Core.Entities;
 using AspnetRun.Core.Repositories;
 using AspnetRun.Core.Repositories.Base;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +13,7 @@ namespace AspnetRun.Infrastructure.Data
     public class AspnetRunContextSeed
     {
         private readonly AspnetRunContext _aspnetRunContext;
+        private readonly UserManager<AspnetRunUser> _userManager;
         private readonly IProductRepository _productRepository;
         private readonly IRepository<ProductSpecification> _productSpecificationRepository;
         private readonly IRepository<Category> _categoryRepository;
@@ -21,6 +25,7 @@ namespace AspnetRun.Infrastructure.Data
 
         public AspnetRunContextSeed(
             AspnetRunContext aspnetRunContext,
+            UserManager<AspnetRunUser> userManager,
             IProductRepository productRepository,
             IRepository<Category> categoryRepository,
             IRepository<ProductSpecification> productSpecificationRepository,
@@ -31,6 +36,7 @@ namespace AspnetRun.Infrastructure.Data
             IRepository<Order> orderRepository)
         {
             _aspnetRunContext = aspnetRunContext;
+            _userManager = userManager;
             _productRepository = productRepository;
             _categoryRepository = categoryRepository;
             _productSpecificationRepository = productSpecificationRepository;
@@ -60,6 +66,9 @@ namespace AspnetRun.Infrastructure.Data
             // cart and cart items - order and order items
             await SeedCartAndItemsAsync();
             await SeedOrderAndItemsAsync();
+
+            // users
+            await SeedUsersAsync();
         }
 
         private async Task SeedCategoriesAsync()
@@ -682,6 +691,29 @@ namespace AspnetRun.Infrastructure.Data
                 };
 
                 await _orderRepository.AddRangeAsync(orders);
+            }
+        }
+
+        private async Task SeedUsersAsync()
+        {
+            var user = await _userManager.FindByEmailAsync("aspnetrun@outlook.com");
+            if (user == null)
+            {
+                user = new AspnetRunUser
+                {
+                    FirstName = "Aspnet",
+                    LastName = "Run",
+                    Email = "aspnetrun@outlook.com",
+                    UserName = "aspnetrun"
+                };
+
+                var result = await _userManager.CreateAsync(user, "P@ssw0rd!");
+                if (result != IdentityResult.Success)
+                {
+                    throw new InvalidOperationException("Could not create user in Seeding");
+                }
+
+                _aspnetRunContext.Entry(user).State = EntityState.Unchanged;
             }
         }
     }

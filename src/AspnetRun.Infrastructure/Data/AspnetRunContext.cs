@@ -1,4 +1,6 @@
-﻿using AspnetRun.Core.Entities.Base;
+﻿using AspnetRun.Core.Entities;
+using AspnetRun.Core.Entities.Base;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
@@ -9,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace AspnetRun.Infrastructure.Data
 {
-    public class AspnetRunContext : DbContext
+    public class AspnetRunContext : IdentityDbContext<AspnetRunUser, AspnetRunRole, int>
     {
         public AspnetRunContext(DbContextOptions<AspnetRunContext> options)
             : base(options)

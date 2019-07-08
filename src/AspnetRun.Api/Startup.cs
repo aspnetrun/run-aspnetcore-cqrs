@@ -1,20 +1,25 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using AspnetRun.Api.Application.Middlewares;
 using AspnetRun.Core.Configuration;
+using AspnetRun.Core.Entities;
 using AspnetRun.Infrastructure.Data;
 using AspnetRun.Infrastructure.IoC;
 using AspnetRun.Infrastructure.Misc;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -41,8 +46,10 @@ namespace AspnetRun.Api
             services
                 .AddCustomMvc()
                 .AddCustomDbContext(AspnetRunSettings)
+                .AddCustomIdentity()
                 .AddCustomSwagger()
                 .AddCustomConfiguration(Configuration)
+                .AddCustomAuthentication(AspnetRunSettings)
                 .AddCustomIntegrations(HostingEnvironment);
         }
 
@@ -131,6 +138,28 @@ namespace AspnetRun.Api
             return services;
         }
 
+        public static IServiceCollection AddCustomIdentity(this IServiceCollection services)
+        {
+            var sp = services.BuildServiceProvider();
+            using (var scope = sp.CreateScope())
+            {
+                var existingUserManager = scope.ServiceProvider.GetService<UserManager<AspnetRunUser>>();
+
+                if (existingUserManager == null)
+                {
+                    services.AddIdentity<AspnetRunUser, AspnetRunRole>(
+                        cfg =>
+                        {
+                            cfg.User.RequireUniqueEmail = true;
+                        })
+                        .AddEntityFrameworkStores<AspnetRunContext>()
+                        .AddDefaultTokenProviders();
+                }
+            }
+
+            return services;
+        }
+
         public static IServiceCollection AddCustomSwagger(this IServiceCollection services)
         {
             services.AddSwaggerDocument(config =>
@@ -180,6 +209,27 @@ namespace AspnetRun.Api
                     };
                 };
             });
+
+            return services;
+        }
+
+        public static IServiceCollection AddCustomAuthentication(this IServiceCollection services, AspnetRunSettings aspnetRunSettings)
+        {
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+              .AddJwtBearer(options =>
+              {
+                  options.TokenValidationParameters = new TokenValidationParameters
+                  {
+                      ValidateIssuer = true,
+                      ValidateAudience = true,
+                      ValidateLifetime = true,
+                      ValidateIssuerSigningKey = true,
+
+                      ValidIssuer = aspnetRunSettings.Tokens.Issuer,
+                      ValidAudience = aspnetRunSettings.Tokens.Audience,
+                      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(aspnetRunSettings.Tokens.Key))
+                  };
+              });
 
             return services;
         }
