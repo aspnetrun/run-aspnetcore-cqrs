@@ -6,8 +6,11 @@ import { CategoryDataService } from './services/category-data.service';
 import { ValidationService } from './services/validation.service';
 import { EnsureModuleLoadedOnceGuard } from './ensure-module-loaded-once.guard';
 import { HttpErrorInterceptor } from './interceptors/http-error.interceptor';
+import { HttpAuthInterceptor } from './interceptors/http-auth.interceptor';
 import { NgxUiLoaderModule, NgxUiLoaderHttpModule } from 'ngx-ui-loader';
 import { SpinnerService } from './services/spinner.service';
+import { AuthService } from './services/auth.service';
+import { AuthGuardService } from './services/auth-guard.service';
 import { LayoutComponent } from './layout/layout.component';
 import { AppAsideModule, AppBreadcrumbModule, AppHeaderModule, AppFooterModule, AppSidebarModule } from '@coreui/angular';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
@@ -46,11 +49,18 @@ const APP_CONTAINERS = [LayoutComponent];
   providers: [
     ProductDataService,
     CategoryDataService,
+    AuthService,
+    AuthGuardService,
     ValidationService,
     SpinnerService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpErrorInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpAuthInterceptor,
       multi: true
     },
   ] // these should be singleton

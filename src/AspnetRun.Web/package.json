@@ -31,6 +31,7 @@
     "font-awesome": "^4.7.0",
     "jquery": "^3.4.1",
     "lodash": "^4.17.11",
+    "moment": "^2.24.0",
     "ngx-bootstrap": "^4.1.1",
     "ngx-perfect-scrollbar": "^7.2.1",
     "ngx-ui-loader": "^7.2.2",
