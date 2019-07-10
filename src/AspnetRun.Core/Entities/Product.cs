@@ -20,8 +20,8 @@ namespace AspnetRun.Core.Entities
         public int CategoryId { get; set; }
         public virtual Category Category { get; set; }
 
-        // 1-n relationships
-        public IList<ProductSpecification> Specifications { get; set; } = new List<ProductSpecification>();
+        // n-n relationships
+        public IList<ProductSpecificationAssociation> Specifications { get; set; } = new List<ProductSpecificationAssociation>();
 
         public static Product Create(int productId, int categoryId, string name, decimal unitPrice = 0, short? unitsInStock = null)
         {

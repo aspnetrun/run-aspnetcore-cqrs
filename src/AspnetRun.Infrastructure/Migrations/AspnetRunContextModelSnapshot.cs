@@ -15,7 +15,7 @@ namespace AspnetRun.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
+                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -141,48 +141,6 @@ namespace AspnetRun.Infrastructure.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("AspnetRun.Core.Entities.Cart", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CustomerId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
-
-                    b.ToTable("Cart");
-                });
-
-            modelBuilder.Entity("AspnetRun.Core.Entities.CartItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("CartId");
-
-                    b.Property<string>("Color");
-
-                    b.Property<int>("ProductId");
-
-                    b.Property<int>("Quantity");
-
-                    b.Property<decimal>("TotalPrice");
-
-                    b.Property<decimal>("UnitPrice");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CartId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("CartItem");
-                });
-
             modelBuilder.Entity("AspnetRun.Core.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -200,6 +158,77 @@ namespace AspnetRun.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Category");
+                });
+
+            modelBuilder.Entity("AspnetRun.Core.Entities.Contract", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BillingAddressId");
+
+                    b.Property<int>("CustomerId");
+
+                    b.Property<decimal>("GrandTotal");
+
+                    b.Property<int>("ShippingAddressId");
+
+                    b.Property<int>("Status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BillingAddressId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("ShippingAddressId");
+
+                    b.ToTable("Contract");
+                });
+
+            modelBuilder.Entity("AspnetRun.Core.Entities.ContractItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ContractId");
+
+                    b.Property<int>("ProductId");
+
+                    b.Property<int>("Quantity");
+
+                    b.Property<decimal>("TotalPrice");
+
+                    b.Property<decimal>("UnitPrice");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContractId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ContractItem");
+                });
+
+            modelBuilder.Entity("AspnetRun.Core.Entities.ContractPaymentAssociation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ContractId");
+
+                    b.Property<int>("PaymentId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContractId");
+
+                    b.HasIndex("PaymentId");
+
+                    b.ToTable("ContractPaymentAssociation");
                 });
 
             modelBuilder.Entity("AspnetRun.Core.Entities.Customer", b =>
@@ -239,8 +268,6 @@ namespace AspnetRun.Infrastructure.Migrations
 
                     b.Property<decimal>("GrandTotal");
 
-                    b.Property<int>("PaymentMethod");
-
                     b.Property<int>("ShippingAddressId");
 
                     b.Property<int>("Status");
@@ -262,8 +289,6 @@ namespace AspnetRun.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Color");
-
                     b.Property<int?>("OrderId");
 
                     b.Property<int>("ProductId");
@@ -281,6 +306,57 @@ namespace AspnetRun.Infrastructure.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("OrderItem");
+                });
+
+            modelBuilder.Entity("AspnetRun.Core.Entities.OrderPaymentAssociation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("OrderId");
+
+                    b.Property<int>("PaymentId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("PaymentId");
+
+                    b.ToTable("OrderPaymentAssociation");
+                });
+
+            modelBuilder.Entity("AspnetRun.Core.Entities.Payment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal>("GrandTotal");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Payment");
+                });
+
+            modelBuilder.Entity("AspnetRun.Core.Entities.PaymentItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal>("Amount");
+
+                    b.Property<int>("Method");
+
+                    b.Property<int?>("PaymentId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PaymentId");
+
+                    b.ToTable("PaymentItem");
                 });
 
             modelBuilder.Entity("AspnetRun.Core.Entities.Product", b =>
@@ -316,7 +392,7 @@ namespace AspnetRun.Infrastructure.Migrations
                     b.ToTable("Product");
                 });
 
-            modelBuilder.Entity("AspnetRun.Core.Entities.ProductSpecification", b =>
+            modelBuilder.Entity("AspnetRun.Core.Entities.ProductSpecificationAssociation", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -332,7 +408,7 @@ namespace AspnetRun.Infrastructure.Migrations
 
                     b.HasIndex("SpecificationId");
 
-                    b.ToTable("ProductSpecification");
+                    b.ToTable("ProductSpecificationAssociation");
                 });
 
             modelBuilder.Entity("AspnetRun.Core.Entities.Specification", b =>
@@ -441,24 +517,47 @@ namespace AspnetRun.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("AspnetRun.Core.Entities.Cart", b =>
+            modelBuilder.Entity("AspnetRun.Core.Entities.Contract", b =>
                 {
+                    b.HasOne("AspnetRun.Core.Entities.Address", "BillingAddress")
+                        .WithMany()
+                        .HasForeignKey("BillingAddressId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("AspnetRun.Core.Entities.Customer", "Customer")
                         .WithMany()
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("AspnetRun.Core.Entities.Address", "ShippingAddress")
+                        .WithMany()
+                        .HasForeignKey("ShippingAddressId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("AspnetRun.Core.Entities.CartItem", b =>
+            modelBuilder.Entity("AspnetRun.Core.Entities.ContractItem", b =>
                 {
-                    b.HasOne("AspnetRun.Core.Entities.Cart")
+                    b.HasOne("AspnetRun.Core.Entities.Contract")
                         .WithMany("Items")
-                        .HasForeignKey("CartId")
+                        .HasForeignKey("ContractId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("AspnetRun.Core.Entities.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("AspnetRun.Core.Entities.ContractPaymentAssociation", b =>
+                {
+                    b.HasOne("AspnetRun.Core.Entities.Contract", "Contract")
+                        .WithMany("Payments")
+                        .HasForeignKey("ContractId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("AspnetRun.Core.Entities.Payment", "Payment")
+                        .WithMany()
+                        .HasForeignKey("PaymentId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
@@ -501,6 +600,27 @@ namespace AspnetRun.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
+            modelBuilder.Entity("AspnetRun.Core.Entities.OrderPaymentAssociation", b =>
+                {
+                    b.HasOne("AspnetRun.Core.Entities.Order", "Order")
+                        .WithMany("Payments")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("AspnetRun.Core.Entities.Payment", "Payment")
+                        .WithMany()
+                        .HasForeignKey("PaymentId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("AspnetRun.Core.Entities.PaymentItem", b =>
+                {
+                    b.HasOne("AspnetRun.Core.Entities.Payment")
+                        .WithMany("Items")
+                        .HasForeignKey("PaymentId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
             modelBuilder.Entity("AspnetRun.Core.Entities.Product", b =>
                 {
                     b.HasOne("AspnetRun.Core.Entities.Category", "Category")
@@ -509,7 +629,7 @@ namespace AspnetRun.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("AspnetRun.Core.Entities.ProductSpecification", b =>
+            modelBuilder.Entity("AspnetRun.Core.Entities.ProductSpecificationAssociation", b =>
                 {
                     b.HasOne("AspnetRun.Core.Entities.Product", "Product")
                         .WithMany("Specifications")

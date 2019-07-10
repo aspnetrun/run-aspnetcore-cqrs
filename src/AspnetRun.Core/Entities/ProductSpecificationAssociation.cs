@@ -2,12 +2,12 @@
 
 namespace AspnetRun.Core.Entities
 {
-    public class OrderItem : Entity
+    public class ProductSpecificationAssociation : Entity
     {
-        public int Quantity { get; set; }
-        public decimal UnitPrice { get; set; }
-        public decimal TotalPrice { get; set; }
         public int ProductId { get; set; }
         public Product Product { get; set; }
+
+        public int SpecificationId { get; set; }
+        public Specification Specification { get; set; }
     }
 }

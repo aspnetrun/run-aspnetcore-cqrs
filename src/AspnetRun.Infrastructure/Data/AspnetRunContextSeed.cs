@@ -15,7 +15,7 @@ namespace AspnetRun.Infrastructure.Data
         private readonly AspnetRunContext _aspnetRunContext;
         private readonly UserManager<AspnetRunUser> _userManager;
         private readonly IProductRepository _productRepository;
-        private readonly IRepository<ProductSpecification> _productSpecificationRepository;
+        private readonly IRepository<ProductSpecificationAssociation> _prodSpecAssocRepository;
         private readonly IRepository<Category> _categoryRepository;
         private readonly IRepository<Specification> _specificationRepository;
         private readonly IRepository<Customer> _customerRepository;
@@ -27,7 +27,7 @@ namespace AspnetRun.Infrastructure.Data
             UserManager<AspnetRunUser> userManager,
             IProductRepository productRepository,
             IRepository<Category> categoryRepository,
-            IRepository<ProductSpecification> productSpecificationRepository,
+            IRepository<ProductSpecificationAssociation> prodSpecAssocRepository,
             IRepository<Specification> specificationRepository,
             IRepository<Customer> customerRepository,
             IRepository<Address> addressRepository,
@@ -37,7 +37,7 @@ namespace AspnetRun.Infrastructure.Data
             _userManager = userManager;
             _productRepository = productRepository;
             _categoryRepository = categoryRepository;
-            _productSpecificationRepository = productSpecificationRepository;
+            _prodSpecAssocRepository = prodSpecAssocRepository;
             _specificationRepository = specificationRepository;
             _customerRepository = customerRepository;
             _addressRepository = addressRepository;
@@ -425,9 +425,9 @@ namespace AspnetRun.Infrastructure.Data
 
                 var productSpecifications = from product in _productRepository.Table
                                             from specification in _specificationRepository.Table
-                                            select new ProductSpecification { Product = product, Specification = specification };
+                                            select new ProductSpecificationAssociation { Product = product, Specification = specification };
 
-                await _productSpecificationRepository.AddRangeAsync(productSpecifications);
+                await _prodSpecAssocRepository.AddRangeAsync(productSpecifications);
             }
         }
 
@@ -540,8 +540,7 @@ namespace AspnetRun.Infrastructure.Data
                         Customer = cust1,
                         BillingAddress = cust1.Addresses.FirstOrDefault(),
                         ShippingAddress = cust1.Addresses.FirstOrDefault(),
-                        PaymentMethod = PaymentMethod.Cash,
-                        Status = OrderStatus.Progress,
+                        Status = OrderStatus.Draft,
                         GrandTotal = 347,
                         Items = new List<OrderItem>
                         {
@@ -549,7 +548,6 @@ namespace AspnetRun.Infrastructure.Data
                             {
                                 Product = _productRepository.Table.FirstOrDefault(p => p.Name == "uPhone X"),
                                 Quantity = 2,
-                                Color = "Black",
                                 UnitPrice = 295,
                                 TotalPrice = 590
                             },
@@ -557,7 +555,6 @@ namespace AspnetRun.Infrastructure.Data
                             {
                                 Product = _productRepository.Table.FirstOrDefault(p => p.Name == "Game Station X 22"),
                                 Quantity = 1,
-                                Color = "Red",
                                 UnitPrice = 295,
                                 TotalPrice = 295
                             },
@@ -565,7 +562,6 @@ namespace AspnetRun.Infrastructure.Data
                             {
                                 Product = _productRepository.Table.FirstOrDefault(p => p.Name == "Jackson Toster V 27"),
                                 Quantity = 1,
-                                Color = "Black",
                                 UnitPrice = 185,
                                 TotalPrice = 185
                             }
@@ -576,8 +572,7 @@ namespace AspnetRun.Infrastructure.Data
                         Customer = cust2,
                         BillingAddress = cust2.Addresses.FirstOrDefault(),
                         ShippingAddress = cust2.Addresses.FirstOrDefault(),
-                        PaymentMethod = PaymentMethod.Cash,
-                        Status = OrderStatus.Progress,
+                        Status = OrderStatus.Draft,
                         GrandTotal = 347,
                         Items = new List<OrderItem>
                         {
@@ -585,7 +580,6 @@ namespace AspnetRun.Infrastructure.Data
                             {
                                 Product = _productRepository.Table.FirstOrDefault(p => p.Name == "uPhone X"),
                                 Quantity = 2,
-                                Color = "Black",
                                 UnitPrice = 295,
                                 TotalPrice = 590
                             },
@@ -593,7 +587,6 @@ namespace AspnetRun.Infrastructure.Data
                             {
                                 Product = _productRepository.Table.FirstOrDefault(p => p.Name == "Game Station X 22"),
                                 Quantity = 1,
-                                Color = "Red",
                                 UnitPrice = 295,
                                 TotalPrice = 295
                             },
@@ -601,7 +594,6 @@ namespace AspnetRun.Infrastructure.Data
                             {
                                 Product = _productRepository.Table.FirstOrDefault(p => p.Name == "Jackson Toster V 27"),
                                 Quantity = 1,
-                                Color = "Black",
                                 UnitPrice = 185,
                                 TotalPrice = 185
                             }

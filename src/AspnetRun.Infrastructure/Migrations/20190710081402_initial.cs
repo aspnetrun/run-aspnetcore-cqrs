@@ -69,6 +69,19 @@ namespace AspnetRun.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Payment",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    GrandTotal = table.Column<decimal>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Payment", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Specification",
                 columns: table => new
                 {
@@ -216,7 +229,28 @@ namespace AspnetRun.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductSpecification",
+                name: "PaymentItem",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Amount = table.Column<decimal>(nullable: false),
+                    Method = table.Column<int>(nullable: false),
+                    PaymentId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PaymentItem", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PaymentItem_Payment_PaymentId",
+                        column: x => x.PaymentId,
+                        principalTable: "Payment",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProductSpecificationAssociation",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -226,17 +260,89 @@ namespace AspnetRun.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductSpecification", x => x.Id);
+                    table.PrimaryKey("PK_ProductSpecificationAssociation", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProductSpecification_Product_ProductId",
+                        name: "FK_ProductSpecificationAssociation_Product_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Product",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductSpecification_Specification_SpecificationId",
+                        name: "FK_ProductSpecificationAssociation_Specification_SpecificationId",
                         column: x => x.SpecificationId,
                         principalTable: "Specification",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Contract",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CustomerId = table.Column<int>(nullable: false),
+                    BillingAddressId = table.Column<int>(nullable: false),
+                    ShippingAddressId = table.Column<int>(nullable: false),
+                    Status = table.Column<int>(nullable: false),
+                    GrandTotal = table.Column<decimal>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Contract", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ContractItem",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Quantity = table.Column<int>(nullable: false),
+                    UnitPrice = table.Column<decimal>(nullable: false),
+                    TotalPrice = table.Column<decimal>(nullable: false),
+                    ProductId = table.Column<int>(nullable: false),
+                    ContractId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ContractItem", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ContractItem_Contract_ContractId",
+                        column: x => x.ContractId,
+                        principalTable: "Contract",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ContractItem_Product_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Product",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ContractPaymentAssociation",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ContractId = table.Column<int>(nullable: false),
+                    PaymentId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ContractPaymentAssociation", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ContractPaymentAssociation_Contract_ContractId",
+                        column: x => x.ContractId,
+                        principalTable: "Contract",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ContractPaymentAssociation_Payment_PaymentId",
+                        column: x => x.PaymentId,
+                        principalTable: "Payment",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -290,25 +396,6 @@ namespace AspnetRun.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Cart",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CustomerId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Cart", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Cart_Customer_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "Customer",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Order",
                 columns: table => new
                 {
@@ -317,7 +404,6 @@ namespace AspnetRun.Infrastructure.Migrations
                     CustomerId = table.Column<int>(nullable: false),
                     BillingAddressId = table.Column<int>(nullable: false),
                     ShippingAddressId = table.Column<int>(nullable: false),
-                    PaymentMethod = table.Column<int>(nullable: false),
                     Status = table.Column<int>(nullable: false),
                     GrandTotal = table.Column<decimal>(nullable: false)
                 },
@@ -345,43 +431,12 @@ namespace AspnetRun.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CartItem",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Quantity = table.Column<int>(nullable: false),
-                    Color = table.Column<string>(nullable: true),
-                    UnitPrice = table.Column<decimal>(nullable: false),
-                    TotalPrice = table.Column<decimal>(nullable: false),
-                    ProductId = table.Column<int>(nullable: false),
-                    CartId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CartItem", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CartItem_Cart_CartId",
-                        column: x => x.CartId,
-                        principalTable: "Cart",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_CartItem_Product_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Product",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "OrderItem",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Quantity = table.Column<int>(nullable: false),
-                    Color = table.Column<string>(nullable: true),
                     UnitPrice = table.Column<decimal>(nullable: false),
                     TotalPrice = table.Column<decimal>(nullable: false),
                     ProductId = table.Column<int>(nullable: false),
@@ -400,6 +455,32 @@ namespace AspnetRun.Infrastructure.Migrations
                         name: "FK_OrderItem_Product_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Product",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OrderPaymentAssociation",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    OrderId = table.Column<int>(nullable: false),
+                    PaymentId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderPaymentAssociation", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_OrderPaymentAssociation_Order_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Order",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_OrderPaymentAssociation_Payment_PaymentId",
+                        column: x => x.PaymentId,
+                        principalTable: "Payment",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -449,19 +530,39 @@ namespace AspnetRun.Infrastructure.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cart_CustomerId",
-                table: "Cart",
+                name: "IX_Contract_BillingAddressId",
+                table: "Contract",
+                column: "BillingAddressId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Contract_CustomerId",
+                table: "Contract",
                 column: "CustomerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CartItem_CartId",
-                table: "CartItem",
-                column: "CartId");
+                name: "IX_Contract_ShippingAddressId",
+                table: "Contract",
+                column: "ShippingAddressId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CartItem_ProductId",
-                table: "CartItem",
+                name: "IX_ContractItem_ContractId",
+                table: "ContractItem",
+                column: "ContractId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ContractItem_ProductId",
+                table: "ContractItem",
                 column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ContractPaymentAssociation_ContractId",
+                table: "ContractPaymentAssociation",
+                column: "ContractId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ContractPaymentAssociation_PaymentId",
+                table: "ContractPaymentAssociation",
+                column: "PaymentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Customer_DefaultAddressId",
@@ -494,19 +595,58 @@ namespace AspnetRun.Infrastructure.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_OrderPaymentAssociation_OrderId",
+                table: "OrderPaymentAssociation",
+                column: "OrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderPaymentAssociation_PaymentId",
+                table: "OrderPaymentAssociation",
+                column: "PaymentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PaymentItem_PaymentId",
+                table: "PaymentItem",
+                column: "PaymentId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Product_CategoryId",
                 table: "Product",
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductSpecification_ProductId",
-                table: "ProductSpecification",
+                name: "IX_ProductSpecificationAssociation_ProductId",
+                table: "ProductSpecificationAssociation",
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductSpecification_SpecificationId",
-                table: "ProductSpecification",
+                name: "IX_ProductSpecificationAssociation_SpecificationId",
+                table: "ProductSpecificationAssociation",
                 column: "SpecificationId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Contract_Customer_CustomerId",
+                table: "Contract",
+                column: "CustomerId",
+                principalTable: "Customer",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Contract_Address_BillingAddressId",
+                table: "Contract",
+                column: "BillingAddressId",
+                principalTable: "Address",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Contract_Address_ShippingAddressId",
+                table: "Contract",
+                column: "ShippingAddressId",
+                principalTable: "Address",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Customer_Address_DefaultAddressId",
@@ -539,13 +679,22 @@ namespace AspnetRun.Infrastructure.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "CartItem");
+                name: "ContractItem");
+
+            migrationBuilder.DropTable(
+                name: "ContractPaymentAssociation");
 
             migrationBuilder.DropTable(
                 name: "OrderItem");
 
             migrationBuilder.DropTable(
-                name: "ProductSpecification");
+                name: "OrderPaymentAssociation");
+
+            migrationBuilder.DropTable(
+                name: "PaymentItem");
+
+            migrationBuilder.DropTable(
+                name: "ProductSpecificationAssociation");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -554,10 +703,13 @@ namespace AspnetRun.Infrastructure.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Cart");
+                name: "Contract");
 
             migrationBuilder.DropTable(
                 name: "Order");
+
+            migrationBuilder.DropTable(
+                name: "Payment");
 
             migrationBuilder.DropTable(
                 name: "Product");

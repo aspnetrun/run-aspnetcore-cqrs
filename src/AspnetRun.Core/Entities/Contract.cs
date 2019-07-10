@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace AspnetRun.Core.Entities
 {
-    public class Order : Entity
+    public class Contract : Entity
     {
         public int CustomerId { get; set; }
         public Customer Customer { get; set; }
@@ -11,19 +11,18 @@ namespace AspnetRun.Core.Entities
         public Address BillingAddress { get; set; }
         public int ShippingAddressId { get; set; }
         public Address ShippingAddress { get; set; }
-        public OrderStatus Status { get; set; }
+        public ContractStatus Status { get; set; }
         public decimal GrandTotal { get; set; }
 
-        public List<OrderItem> Items { get; set; } = new List<OrderItem>();
+        public List<ContractItem> Items { get; set; } = new List<ContractItem>();
 
         // n-n relationships
-        public IList<OrderPaymentAssociation> Payments { get; set; } = new List<OrderPaymentAssociation>();
+        public IList<ContractPaymentAssociation> Payments { get; set; } = new List<ContractPaymentAssociation>();
     }
 
-    public enum OrderStatus
+    public enum ContractStatus
     {
-        Draft = 1,
-        Canceled = 2,
-        Closed = 3
+        OnGoing = 1,
+        Closed = 2
     }
 }
