@@ -20,7 +20,6 @@ namespace AspnetRun.Infrastructure.Data
         private readonly IRepository<Specification> _specificationRepository;
         private readonly IRepository<Customer> _customerRepository;
         private readonly IRepository<Address> _addressRepository;
-        private readonly IRepository<Cart> _cartRepository;
         private readonly IRepository<Order> _orderRepository;
 
         public AspnetRunContextSeed(
@@ -32,7 +31,6 @@ namespace AspnetRun.Infrastructure.Data
             IRepository<Specification> specificationRepository,
             IRepository<Customer> customerRepository,
             IRepository<Address> addressRepository,
-            IRepository<Cart> cartRepository,
             IRepository<Order> orderRepository)
         {
             _aspnetRunContext = aspnetRunContext;
@@ -43,7 +41,6 @@ namespace AspnetRun.Infrastructure.Data
             _specificationRepository = specificationRepository;
             _customerRepository = customerRepository;
             _addressRepository = addressRepository;
-            _cartRepository = cartRepository;
             _orderRepository = orderRepository;
         }
 
@@ -63,8 +60,7 @@ namespace AspnetRun.Infrastructure.Data
             // customers
             await SeedCustomersAsync();
 
-            // cart and cart items - order and order items
-            await SeedCartAndItemsAsync();
+            // order and order items
             await SeedOrderAndItemsAsync();
 
             // users
@@ -527,83 +523,6 @@ namespace AspnetRun.Infrastructure.Data
 
                 await _addressRepository.AddRangeAsync(addresses);
                 await _customerRepository.AddRangeAsync(customers);
-            }
-        }
-
-        private async Task SeedCartAndItemsAsync()
-        {
-            if (!_cartRepository.Table.Any())
-            {
-                var cust1 = _customerRepository.Table.FirstOrDefault(c => c.Name == "Abdulkadir");
-                var cust2 = _customerRepository.Table.FirstOrDefault(c => c.Name == "Mehmet");
-
-                var carts = new List<Cart>()
-                {
-                    new Cart
-                    {
-                        Customer = cust1,
-                        Items = new List<CartItem>
-                        {
-                            new CartItem
-                            {
-                                Product = _productRepository.Table.FirstOrDefault(p => p.Name == "uPhone X"),
-                                Quantity = 2,
-                                Color = "Black",
-                                UnitPrice = 295,
-                                TotalPrice = 590
-                            },
-                            new CartItem
-                            {
-                                Product = _productRepository.Table.FirstOrDefault(p => p.Name == "Game Station X 22"),
-                                Quantity = 1,
-                                Color = "Red",
-                                UnitPrice = 295,
-                                TotalPrice = 295
-                            },
-                            new CartItem
-                            {
-                                Product = _productRepository.Table.FirstOrDefault(p => p.Name == "Jackson Toster V 27"),
-                                Quantity = 1,
-                                Color = "Black",
-                                UnitPrice = 185,
-                                TotalPrice = 185
-                            }
-                        }
-                    },
-                    new Cart
-                    {
-                        Customer = cust2,
-                        Items = new List<CartItem>
-                        {
-                            new CartItem
-                            {
-                                Product = _productRepository.Table.FirstOrDefault(p => p.Name == "uPhone X"),
-                                Quantity = 2,
-                                Color = "Black",
-                                UnitPrice = 295,
-                                TotalPrice = 590
-                            },
-                            new CartItem
-                            {
-                                Product = _productRepository.Table.FirstOrDefault(p => p.Name == "Game Station X 22"),
-                                Quantity = 1,
-                                Color = "Red",
-                                UnitPrice = 295,
-                                TotalPrice = 295
-                            },
-                            new CartItem
-                            {
-                                Product = _productRepository.Table.FirstOrDefault(p => p.Name == "Jackson Toster V 27"),
-                                Quantity = 1,
-                                Color = "Black",
-                                UnitPrice = 185,
-                                TotalPrice = 185
-                            }
-                        }
-                    }
-                };
-
-                await _cartRepository.AddRangeAsync(carts);
             }
         }
 
