@@ -25,7 +25,8 @@
                                             <div class="col-md-9">
                                                 <input type="text" id="af-name" name="af-name" class="form-control"
                                                     formControlName="name" placeholder="" autocomplete="name">
-                                                <div controlMessage [control]="productForm.controls.name"></div>
+                                                <ar-validation-message [control]="productForm.controls.name">
+                                                </ar-validation-message>
                                             </div>
                                         </div>
 
@@ -36,7 +37,8 @@
                                                 <input type="text" id="af-description" name="af-description"
                                                     class="form-control" formControlName="description" placeholder=""
                                                     autocomplete="description">
-                                                <div controlMessage [control]="productForm.controls.description"></div>
+                                                <ar-validation-message [control]="productForm.controls.description">
+                                                </ar-validation-message>
                                             </div>
                                         </div>
 
@@ -47,7 +49,8 @@
                                                 <input type="number" id="af-unitPrice" name="af-unitPrice"
                                                     class="form-control" formControlName="unitPrice" placeholder=""
                                                     autocomplete="unitPrice">
-                                                <div controlMessage [control]="productForm.controls.unitPrice"></div>
+                                                <ar-validation-message [control]="productForm.controls.unitPrice">
+                                                </ar-validation-message>
                                             </div>
                                         </div>
 
@@ -58,7 +61,8 @@
                                                     formControlName="selectedcategory"
                                                     (ngModelChange)="onCategorySelected()">
                                                 </ng-select>
-                                                <div controlMessage [control]="productForm.controls.unitPrice"></div>
+                                                <ar-validation-message [control]="productForm.controls.unitPrice">
+                                                </ar-validation-message>
                                             </div>
                                         </div>
 

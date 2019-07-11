@@ -3,7 +3,7 @@ import { GridOption } from 'angular-slickgrid';
 import { SlickgridTableComponent } from '../table/slickgrid-table.component';
 
 @Component({
-  selector: 'slickgrid-pagination',
+  selector: 'ar-slickgrid-pagination',
   templateUrl: './slickgrid-pagination.component.html',
   styleUrls: ['./slickgrid-pagination.component.css']
 })

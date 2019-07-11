@@ -6,7 +6,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AngularSlickgridModule } from 'angular-slickgrid';
 
-import { ControlMessageComponent } from './control-messages/control-message.component';
+import { ValidationMessageComponent } from './validation-message/validation-message.component';
 import { SlickgridComponent } from './slickgrid/slickgrid.component';
 import { SlickgridTableComponent } from './slickgrid/table/slickgrid-table.component';
 import { SlickgridPaginationComponent } from './slickgrid/pagination/slickgrid-pagination.component';
@@ -26,11 +26,11 @@ import { SlickgridPaginationComponent } from './slickgrid/pagination/slickgrid-p
     ModalModule,
     NgSelectModule,
     AngularSlickgridModule,
-    ControlMessageComponent,
+    ValidationMessageComponent,
     SlickgridComponent,
   ],
   declarations: [
-    ControlMessageComponent,
+    ValidationMessageComponent,
     SlickgridComponent,
     SlickgridTableComponent,
     SlickgridPaginationComponent,

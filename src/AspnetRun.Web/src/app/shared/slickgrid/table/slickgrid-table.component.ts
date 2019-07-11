@@ -9,7 +9,7 @@ let timer: any;
 const DEFAULT_FILTER_TYPING_DEBOUNCE = 750;
 
 @Component({
-  selector: 'slickgrid-table',
+  selector: 'ar-slickgrid-table',
   templateUrl: './slickgrid-table.component.html',
   styleUrls: ['./slickgrid-table.component.css']
 })

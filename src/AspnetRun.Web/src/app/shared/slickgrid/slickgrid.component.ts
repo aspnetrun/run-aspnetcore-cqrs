@@ -4,7 +4,7 @@ import { SlickgridTableComponent } from './table/slickgrid-table.component';
 import { SlickgridPaginationComponent } from './pagination/slickgrid-pagination.component';
 
 @Component({
-  selector: 'slickgrid',
+  selector: 'ar-slickgrid',
   templateUrl: './slickgrid.component.html',
   styleUrls: ['./slickgrid.component.css']
 })
