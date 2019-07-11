@@ -6,6 +6,7 @@ import { P500Component } from './views/error/500.component';
 import { LoginComponent } from './views/login/login.component';
 import { RegisterComponent } from './views/register/register.component';
 import { LayoutComponent } from './core/layout/layout.component';
+import { DashboardComponent } from './views/dashboard/dashboard.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full', },
@@ -16,7 +17,7 @@ export const routes: Routes = [
   {
     path: '', component: LayoutComponent, data: { title: '' },
     children: [
-      { path: 'dashboard', loadChildren: './views/dashboard/dashboard.module#DashboardModule' },
+      { path: 'dashboard', component: DashboardComponent, data: { title: 'Dashboard' } },
       { path: 'product', loadChildren: './views/product/product.module#ProductModule' },
       { path: 'category', loadChildren: './views/category/category.module#CategoryModule' }
     ],
