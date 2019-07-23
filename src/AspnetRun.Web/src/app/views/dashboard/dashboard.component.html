@@ -1,0 +1,17 @@
+<div class="container">
+    <ng-wizard [steps]="steps" [config]="config" (stepChanged)="stepChanged($event)"></ng-wizard>
+    <div class="btn-toolbar ng-wizard-toolbar ng-wizard-toolbar-top justify-content-start">
+        <div class="btn-group mr-2 ng-wizard-btn-group">
+            <button type="button" (click)="showPreviousStep($event)"
+                class="btn btn-secondary ng-wizard-btn-prev">Previous</button>
+            <button type="button" (click)="showNextStep($event)"
+                class="btn btn-secondary ng-wizard-btn-next">Next</button>
+            <button type="button" (click)="resetWizard($event)" class="btn btn-danger">Reset</button>
+            <select [(ngModel)]="selectedtheme" (change)="themeSelected()">
+                <option *ngFor="let theme of themes" [ngValue]="theme">{{theme}}</option>
+            </select>
+        </div>
+    </div>
+    <br />
+    <pre>{{ stepChangedArgs | json }}</pre>
+</div>
