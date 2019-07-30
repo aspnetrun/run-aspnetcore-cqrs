@@ -1,17 +1,60 @@
-<div class="container">
-    <ng-wizard [steps]="steps" [config]="config" (stepChanged)="stepChanged($event)"></ng-wizard>
-    <div class="btn-toolbar ng-wizard-toolbar ng-wizard-toolbar-top justify-content-start">
-        <div class="btn-group mr-2 ng-wizard-btn-group">
-            <button type="button" (click)="showPreviousStep($event)"
-                class="btn btn-secondary ng-wizard-btn-prev">Previous</button>
-            <button type="button" (click)="showNextStep($event)"
-                class="btn btn-secondary ng-wizard-btn-next">Next</button>
-            <button type="button" (click)="resetWizard($event)" class="btn btn-danger">Reset</button>
-            <select [(ngModel)]="selectedtheme" (change)="themeSelected()">
-                <option *ngFor="let theme of themes" [ngValue]="theme">{{theme}}</option>
-            </select>
+<div class="animated fadeIn">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group row">
+
+                        <ng-wizard style="width: 100%" [config]="config" (stepChanged)="stepChanged($event)">
+
+                            <ng-wizard-step [title]="'Step 1'" [description]="'Step 1 description'">
+                                <span>Step 1 content</span>
+                            </ng-wizard-step>
+
+                            <ng-wizard-step [title]="'Step 2'" [description]="'Step 2 description'">
+                                <span>Step 2 content</span>
+                            </ng-wizard-step>
+
+                            <ng-wizard-step [title]="'Step 3'" [description]="'Step 3 description'">
+                                <span>Step 3 content</span>
+                            </ng-wizard-step>
+
+                            <ng-wizard-step [title]="'Step 4'" [description]="'Step 4 description'">
+                                <span>Step 4 content</span>
+                            </ng-wizard-step>
+
+                            <ng-wizard-step [title]="'Step 5'" [description]="'Step 5 description'">
+                                <span>Step 5 content</span>
+                            </ng-wizard-step>
+
+                        </ng-wizard>
+
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="btn-toolbar ng-wizard-toolbar ng-wizard-toolbar-top justify-content-start"
+                            style="width: 100%">
+                            <div class="btn-group mr-2 ng-wizard-btn-group">
+                                <button type="button" (click)="showPreviousStep($event)"
+                                    class="btn btn-secondary ng-wizard-btn-prev">Previous</button>
+                                <button type="button" (click)="showNextStep($event)"
+                                    class="btn btn-secondary ng-wizard-btn-next">Next</button>
+                                <button type="button" (click)="resetWizard($event)"
+                                    class="btn btn-danger">Reset</button>
+                                <select [(ngModel)]="selectedtheme" (change)="themeSelected()">
+                                    <option *ngFor="let theme of themes" [ngValue]="theme">{{theme}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div style="width: 100%">
+                            <pre>{{ stepChangedArgs | json }}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <br />
-    <pre>{{ stepChangedArgs | json }}</pre>
 </div>

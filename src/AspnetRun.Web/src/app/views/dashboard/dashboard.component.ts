@@ -1,40 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { NgWizardStepDef, STEP_STATE, NgWizardConfig, THEME, StepChangedArgs, NgWizardService } from 'ng-wizard';
+import { STEP_STATE, NgWizardConfig, THEME, StepChangedArgs, NgWizardService } from 'ng-wizard';
 
 @Component({
   templateUrl: 'dashboard.component.html'
 })
 export class DashboardComponent implements OnInit {
-  steps: NgWizardStepDef[] = [
-    {
-      title: 'Step 1',
-      description: 'Step 1 description',
-      content: 'Step 1 Content',
-    },
-    {
-      title: 'Step 2',
-      description: 'Step 2 description',
-      content: 'Step 2 Content',
-      state: STEP_STATE.error,
-    },
-    {
-      title: 'Step 3',
-      description: 'Step 3 description',
-      content: 'Step 3 Content',
-      state: STEP_STATE.disabled,
-    },
-    {
-      title: 'Step 4',
-      description: 'Step 4 description',
-      content: 'Step 4 Content',
-      state: STEP_STATE.hidden,
-    },
-    {
-      title: 'Step 5',
-      description: 'Step 5 description',
-      content: 'Step 5 Content',
-    },
-  ];
+
+  stepStates = { normal: STEP_STATE.normal, disabled: STEP_STATE.disabled, error: STEP_STATE.error, hidden: STEP_STATE.hidden };
 
   config: NgWizardConfig = {
     selected: 0,
