@@ -3,9 +3,8 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="form-group row">
-
-                        <ng-wizard style="width: 100%" [config]="config" (stepChanged)="stepChanged($event)">
+                    <div class="form-group">
+                        <ng-wizard [config]="config" (stepChanged)="stepChanged($event)">
 
                             <ng-wizard-step [title]="'Step 1'" [description]="'Step 1 description'">
                                 <span>Step 1 content</span>
@@ -28,12 +27,10 @@
                             </ng-wizard-step>
 
                         </ng-wizard>
-
                     </div>
 
-                    <div class="form-group row">
-                        <div class="btn-toolbar ng-wizard-toolbar ng-wizard-toolbar-top justify-content-start"
-                            style="width: 100%">
+                    <div class="form-group">
+                        <div class="btn-toolbar ng-wizard-toolbar ng-wizard-toolbar-top justify-content-start">
                             <div class="btn-group mr-2 ng-wizard-btn-group">
                                 <button type="button" (click)="showPreviousStep($event)"
                                     class="btn btn-secondary ng-wizard-btn-prev">Previous</button>
@@ -48,8 +45,8 @@
                         </div>
                     </div>
 
-                    <div class="form-group row">
-                        <div style="width: 100%">
+                    <div class="form-group">
+                        <div>
                             <pre>{{ stepChangedArgs | json }}</pre>
                         </div>
                     </div>
