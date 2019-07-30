@@ -80,7 +80,7 @@ export class SlickgridTableComponent implements BackendService {
     this.paginationComponent.processing = false;
   }
 
-  @ViewChild('angularSlickgrid') angularSlickgrid: AngularSlickgridComponent;
+  @ViewChild('angularSlickgrid', { static: true }) angularSlickgrid: AngularSlickgridComponent;
 
   gridObj: any;
   dataviewObj: any;

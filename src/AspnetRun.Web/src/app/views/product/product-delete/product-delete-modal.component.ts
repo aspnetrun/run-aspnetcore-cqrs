@@ -8,7 +8,7 @@ import { ProductDataService } from 'src/app/core/services/product-data.service';
   styleUrls: ['./product-delete-modal.component.scss']
 })
 export class ProductDeleteModalComponent implements OnInit {
-  @ViewChild('deleteModal') public deleteModal: ModalDirective;
+  @ViewChild('deleteModal', { static: true }) public deleteModal: ModalDirective;
   @Input() productId?: number;
   @Output() productDeleted: EventEmitter<Date> = new EventEmitter<Date>();
 

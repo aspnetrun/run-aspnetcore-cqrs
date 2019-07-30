@@ -15,8 +15,8 @@ export class SlickgridComponent implements OnInit {
   @Input() dataset: any[];
   @Input() pageCount: number;
 
-  @ViewChild('slickgridTable') slickgridTable: SlickgridTableComponent;
-  @ViewChild('slickgridPagination') slickgridPagination: SlickgridPaginationComponent;
+  @ViewChild('slickgridTable', { static: true }) slickgridTable: SlickgridTableComponent;
+  @ViewChild('slickgridPagination', { static: true }) slickgridPagination: SlickgridPaginationComponent;
 
   ngOnInit() {
     // Link pagination component into the current Grid
