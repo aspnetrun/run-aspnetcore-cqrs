@@ -7,7 +7,7 @@ import { ProductRoutingModule } from './product-routing.module';
   imports: [
     ProductRoutingModule,
     SharedModule,
-  ],
+  ], 
   declarations: [ProductRoutingModule.components]
 })
 export class ProductModule { }
