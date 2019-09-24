@@ -7,9 +7,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { AngularSlickgridModule } from 'angular-slickgrid';
 
 import { ValidationMessageComponent } from './validation-message/validation-message.component';
-import { SlickgridComponent } from './slickgrid/slickgrid.component';
-import { SlickgridTableComponent } from './slickgrid/table/slickgrid-table.component';
-import { SlickgridPaginationComponent } from './slickgrid/pagination/slickgrid-pagination.component';
 
 @NgModule({
   imports: [
@@ -27,13 +24,9 @@ import { SlickgridPaginationComponent } from './slickgrid/pagination/slickgrid-p
     NgSelectModule,
     AngularSlickgridModule,
     ValidationMessageComponent,
-    SlickgridComponent,
   ],
   declarations: [
     ValidationMessageComponent,
-    SlickgridComponent,
-    SlickgridTableComponent,
-    SlickgridPaginationComponent,
   ]
 })
 export class SharedModule { }
