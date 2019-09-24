@@ -14,7 +14,13 @@ import { ValidationMessageComponent } from './validation-message/validation-mess
     FormsModule,
     ModalModule.forRoot(),
     NgSelectModule,
-    AngularSlickgridModule.forRoot(),
+    AngularSlickgridModule.forRoot({
+      enableAutoResize: true,
+      autoResize: {
+        containerId: 'grid-container',
+        sidePadding: 0
+      }
+    }),
   ],
   exports: [
     CommonModule,

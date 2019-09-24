@@ -6,8 +6,13 @@
                     <button type="button" class="btn btn-sm mr-1 btn-success" data-toggle="modal"
                         routerLink="/product/product-edit">Create New</button>
                 </div>
-                <div class="card-body" id="page">
-                    <div class="form-group row">
+                <div class="card-body">
+                    <div class="form-group row" id="grid-container">
+                        <angular-slickgrid gridId="productGrid" [gridHeight]="429"
+                            [columnDefinitions]="columnDefinitions" [gridOptions]="gridOptions" [dataset]="dataset"
+                            (onAngularGridCreated)="angularGridReady($event)"
+                            (onBeforeGridDestroy)="saveCurrentGridState($event)">
+                        </angular-slickgrid>
                     </div>
                 </div>
             </div>
