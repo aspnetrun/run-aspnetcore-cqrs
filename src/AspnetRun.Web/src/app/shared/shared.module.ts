@@ -16,10 +16,18 @@ import { ValidationMessageComponent } from './validation-message/validation-mess
     NgSelectModule,
     AngularSlickgridModule.forRoot({
       enableAutoResize: true,
+      autoHeight: false,
       autoResize: {
+        maxHeight: 429,
         containerId: 'grid-container',
         sidePadding: 0
-      }
+      },
+      enableFiltering: true,
+      pagination: {
+        pageSizes: [],
+        pageSize: 20,
+        totalItems: 0
+      },
     }),
   ],
   exports: [

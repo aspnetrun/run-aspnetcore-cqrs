@@ -28,13 +28,6 @@ export class ProductListComponent implements OnInit {
     ];
 
     this.gridOptions = {
-      enableFiltering: true,
-      enableCellNavigation: true,
-      pagination: {
-        pageSizes: [10, 15, 20, 30, 50],
-        pageSize: 10,
-        totalItems: 0
-      },
       backendServiceApi: {
         service: new GraphqlService(),
         options: {

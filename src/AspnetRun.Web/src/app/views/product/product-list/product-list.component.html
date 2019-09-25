@@ -8,10 +8,9 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group row" id="grid-container">
-                        <angular-slickgrid gridId="productGrid" [gridHeight]="429"
-                            [columnDefinitions]="columnDefinitions" [gridOptions]="gridOptions" [dataset]="dataset"
-                            (onAngularGridCreated)="angularGridReady($event)"
-                            (onBeforeGridDestroy)="saveCurrentGridState($event)">
+                        <angular-slickgrid gridId="productGrid" [columnDefinitions]="columnDefinitions"
+                            [gridOptions]="gridOptions" [dataset]="dataset"
+                            (onAngularGridCreated)="angularGridReady($event)">
                         </angular-slickgrid>
                     </div>
                 </div>
