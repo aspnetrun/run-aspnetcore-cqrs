@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 
 import { AngularGridInstance, Column, GridOption, FieldType, GraphqlService, GraphqlResult } from 'angular-slickgrid';
 
@@ -17,22 +16,20 @@ export class ProductListComponent implements OnInit {
   gridOptions: GridOption;
   dataset = [];
 
-  constructor(private dataService: ProductDataService, private translate: TranslateService) {
+  constructor(private dataService: ProductDataService) {
   }
 
   ngOnInit(): void {
     this.columnDefinitions = [
-      { id: 'id', field: 'id', headerKey: 'ID', filterable: true, sortable: true, type: FieldType.number },
-      { id: 'name', field: 'name', headerKey: 'NAME', filterable: true, sortable: true, type: FieldType.string },
-      { id: 'unitPrice', field: 'unitPrice', headerKey: 'UNITPRICE', filterable: true, sortable: true, type: FieldType.number },
-      { id: 'category.id', field: 'category.id', headerKey: 'CATEGORY', filterable: true, sortable: true, type: FieldType.string },
+      { id: 'id', field: 'id', name: 'Id', filterable: true, sortable: true, type: FieldType.number },
+      { id: 'name', field: 'name', name: 'Name', filterable: true, sortable: true, type: FieldType.string },
+      { id: 'unitPrice', field: 'unitPrice', name: 'Unit Price', filterable: true, sortable: true, type: FieldType.number },
+      { id: 'category.id', field: 'category.id', name: 'Category', filterable: true, sortable: true, type: FieldType.string },
     ];
 
     this.gridOptions = {
       enableFiltering: true,
       enableCellNavigation: true,
-      enableTranslate: true,
-      i18n: this.translate,
       pagination: {
         pageSizes: [10, 15, 20, 30, 50],
         pageSize: 10,
