@@ -6,11 +6,12 @@
                     <button type="button" class="btn btn-sm mr-1 btn-success" data-toggle="modal"
                         routerLink="/product/product-edit">Create New</button>
                 </div>
-                <div class="card-body" id="page">
-                    <div class="form-group row">
-                        <ar-slickgrid style="width: 100%" [columnDefinitions]="columnDefinitions"
-                            [dataset]="productList.products" [pageCount]="productList.pageCount">
-                        </ar-slickgrid>
+                <div class="card-body">
+                    <div class="form-group row" id="grid-container">
+                        <angular-slickgrid gridId="productGrid" [columnDefinitions]="columnDefinitions"
+                            [gridOptions]="gridOptions" [dataset]="dataset"
+                            (onAngularGridCreated)="angularGridReady($event)">
+                        </angular-slickgrid>
                     </div>
                 </div>
             </div>
