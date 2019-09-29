@@ -33,5 +33,5 @@ export const navItems: NavData[] = [
     { name: 'Dashboard', url: '/dashboard', icon: 'icon-speedometer', },
     { name: 'Products', url: '/product/product-list', icon: 'icon-list' },
     { name: 'Categories', url: '/category/category-list', icon: 'icon-folder-alt' },
-    { name: 'Customer', url: '/category/category-list', icon: 'icon-folder-alt' }
+    { name: 'Customer', url: '/customer/customer-list', icon: 'icon-folder-alt' }
 ];
