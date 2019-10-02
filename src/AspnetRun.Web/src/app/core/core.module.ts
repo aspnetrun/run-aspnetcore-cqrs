@@ -17,6 +17,7 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { RouterModule } from '@angular/router';
+import { CustomerDataService } from './services/customer-data.services';
 
 const APP_CONTAINERS = [LayoutComponent];
 
@@ -47,6 +48,7 @@ const APP_CONTAINERS = [LayoutComponent];
   providers: [
     ProductDataService,
     CategoryDataService,
+    CustomerDataService,
     AuthService,
     AuthGuardService,
     ValidationService,

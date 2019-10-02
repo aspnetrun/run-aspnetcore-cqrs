@@ -30,6 +30,7 @@ export class CustomerListComponent implements OnInit {
   getCustomers() {
     this.dataService.getCustomers().subscribe((customers: ICustomer[]) => {
       this.customers = customers;
+      this.filteredCustomers = customers;
     });
   }
 

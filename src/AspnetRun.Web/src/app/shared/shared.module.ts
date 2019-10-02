@@ -7,6 +7,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { AngularSlickgridModule } from 'angular-slickgrid';
 
 import { ValidationMessageComponent } from './validation-message/validation-message.component';
+import { CapitalizePipe } from './pipes/capitalize.pipe';
+import { TrimPipe } from './pipes/trim.pipe';
 
 @NgModule({
   imports: [
@@ -38,9 +40,13 @@ import { ValidationMessageComponent } from './validation-message/validation-mess
     NgSelectModule,
     AngularSlickgridModule,
     ValidationMessageComponent,
+    CapitalizePipe,
+    TrimPipe
   ],
   declarations: [
     ValidationMessageComponent,
+    CapitalizePipe,
+    TrimPipe
   ]
 })
 export class SharedModule { }
