@@ -11,5 +11,6 @@ namespace AspnetRun.Application.Models
         public string State { get; set; }
         public double OrderTotal { get; set; }
         public string Description { get; set; }
+        public string Gender { get; set; }
     }
 }

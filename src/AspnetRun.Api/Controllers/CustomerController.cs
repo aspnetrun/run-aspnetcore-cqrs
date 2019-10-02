@@ -44,7 +44,8 @@ namespace AspnetRun.Api.Controllers
                     City = "istanbul",
                     Description = "asdf",
                     State = "success",
-                    OrderTotal = 22.2
+                    Gender = "male",
+                    OrderTotal = 22.2                    
                 },
                 new CustomerModel
                 {
@@ -55,6 +56,7 @@ namespace AspnetRun.Api.Controllers
                     City = "istanbul",
                     Description = "asdf",
                     State = "success",
+                    Gender = "female",
                     OrderTotal = 22.2
                 },
                 new CustomerModel
@@ -66,6 +68,7 @@ namespace AspnetRun.Api.Controllers
                     City = "istanbul",
                     Description = "asdf",
                     State = "success",
+                    Gender = "female",
                     OrderTotal = 22.2
                 },
             };

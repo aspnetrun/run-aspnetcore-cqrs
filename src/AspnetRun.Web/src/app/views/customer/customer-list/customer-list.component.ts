@@ -36,8 +36,8 @@ export class CustomerListComponent implements OnInit {
 
   filterChanged(data: string) {
     if (data && this.customers) {
-      data = data.toUpperCase();
-      this.filteredCustomers = this.customers.filter(customer => customer.firstName.toLocaleUpperCase() == data);
+      data = data.toLocaleUpperCase();
+      this.filteredCustomers = this.customers.filter(customer => customer.firstName.toLocaleUpperCase().indexOf(data) > -1);
     } else {
       this.filteredCustomers = this.customers;
     }
