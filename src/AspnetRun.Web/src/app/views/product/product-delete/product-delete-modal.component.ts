@@ -5,7 +5,7 @@ import { ProductDataService } from 'src/app/core/services/product-data.service';
 @Component({
   selector: 'product-delete-modal',
   templateUrl: './product-delete-modal.component.html',
-  styleUrls: ['./product-delete-modal.component.scss']
+  styleUrls: ['./product-delete-modal.component.css']
 })
 export class ProductDeleteModalComponent implements OnInit {
   @ViewChild('deleteModal', { static: true }) public deleteModal: ModalDirective;
