@@ -1,4 +1,5 @@
-﻿using AspnetRun.Application.Interfaces;
+﻿using AspnetRun.Api.Requests;
+using AspnetRun.Application.Interfaces;
 using AspnetRun.Application.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -74,6 +75,29 @@ namespace AspnetRun.Api.Controllers
             };
 
             return Ok(customers);
+        }
+
+        [Route("[action]")]
+        [HttpPost]
+        [ProducesResponseType(typeof(CustomerModel), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<CustomerModel>> GetCustomerById(GetCustomerByIdRequest request)
+        {
+            //var product = await _productService.GetProductById(request.Id);
+
+            var customer = new CustomerModel
+            {
+                Id = 1,
+                FirstName = "mehmet",
+                LastName = "ozkaya",
+                Address = "gungoren",
+                City = "istanbul",
+                Description = "asdf",
+                State = "success",
+                Gender = "male",
+                OrderTotal = 22.2
+            };
+
+            return Ok(customer);
         }
     }
 }

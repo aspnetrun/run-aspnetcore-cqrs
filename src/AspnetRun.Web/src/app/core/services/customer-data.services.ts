@@ -11,4 +11,10 @@ export class CustomerDataService {
     getCustomers(): Observable<ICustomer[]> {
         return this.httpClient.get<ICustomer[]>(environment.apiUrl + '/Customer/GetCustomers');
     }
+
+    getCustomerById(id:number): Observable<ICustomer> {
+        var request = { id: id };
+
+        return this.httpClient.post<ICustomer>(environment.apiUrl + '/Customer/GetCustomerById/', request);        
+    }  
 }

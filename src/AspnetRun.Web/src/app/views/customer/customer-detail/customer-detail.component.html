@@ -1,1 +1,29 @@
-<p>customer-detail works!</p>
+<div class="container" *ngIf="customer">
+    <div class="row">
+      <div class="col-md-2">
+        <img src="assets/img/{{customer.gender | lowercase}}.png" class="details-image" />
+      </div>
+      <div class="col-md-10">
+        <h4>    
+            {{ customer.firstName | capitalize }} {{ customer.lastName | capitalize }}&nbsp;          
+        </h4>
+        <br />
+        {{ customer.address }}
+        <br />
+        {{ customer.city }}, {{ customer.state.name }}
+      </div>
+    </div>    
+    <br /><br />
+    <!-- <div class="row">
+      <div class="col-md-12" *ngIf="customer && customer.latitude && customer.longitude">
+        <cm-map [latitude]="customer.latitude" 
+             [longitude]="customer.longitude" 
+             [zoom]="10" 
+             [enabled]="mapEnabled"
+             [markerText]="'<h3>' + customer.firstName + ' ' + customer.lastName + '</h3>' + customer.city + ', ' + customer.state.name"></cm-map>
+      </div>
+    </div> -->
+  </div>   
+  <div *ngIf="!customer" class="container">
+     No customer found
+  </div>  
