@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ICustomer, IPagedResults } from 'src/app/shared/interfaces';
+import { CustomerDataService } from 'src/app/core/services/customer-data.services';
 
 @Component({
   selector: 'app-customer-list',
@@ -16,23 +17,20 @@ export class CustomerListComponent implements OnInit {
   totalRecords: number = 0;
   pageSize: number = 10;
 
-  constructor() { }
+  constructor(private dataService: CustomerDataService) { }
 
   ngOnInit() {
     this.title = 'Customers'
     this.filterText = ''
     
-    this.getCustomersPage(1);
+    this.getCustomers();
+    //this.getCustomersPage(1);
   }
-
-  getCustomersPage(page: number) {
-    this.dataService.getCustomersPage((page - 1) * this.pageSize, this.pageSize)
-        .subscribe((response: IPagedResults<ICustomer[]>) => {
-          this.customers = this.filteredCustomers = response.results;
-          this.totalRecords = response.totalRecords;
-        },
-        (err: any) => this.logger.log(err),
-        () => this.logger.log('getCustomersPage() retrieved customers for page: ' + page));
+  
+  getCustomers() {
+    this.dataService.getCustomers().subscribe((customers: ICustomer[]) => {
+      this.customers = customers;
+    });
   }
 
   filterChanged(data: string) {

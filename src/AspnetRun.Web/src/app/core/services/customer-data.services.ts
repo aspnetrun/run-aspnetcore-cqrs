@@ -8,7 +8,7 @@ import { ICustomer } from 'src/app/shared/interfaces';
 export class CustomerDataService {
     constructor(private httpClient: HttpClient) { }
 
-    getGetCustomers(): Observable<ICustomer[]> {
+    getCustomers(): Observable<ICustomer[]> {
         return this.httpClient.get<ICustomer[]>(environment.apiUrl + '/Category/GetCustomers');
     }
 }
