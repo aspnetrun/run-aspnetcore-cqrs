@@ -20,7 +20,7 @@ export const routes: Routes = [
       { path: 'dashboard', component: DashboardComponent, data: { title: 'Dashboard' } },
       { path: 'product', loadChildren: () => import('./views/product/product.module').then(m => m.ProductModule) },
       { path: 'category', loadChildren: () => import('./views/category/category.module').then(m => m.CategoryModule) },
-      //{ path: 'customer', loadChildren: () => import('./views/customer/customer.module').then(m => m.CustomerModule) }
+      { path: 'customer', loadChildren: () => import('./views/customer/customer.module').then(m => m.CustomerModule) }
     ],
     canActivateChild: [AuthGuardService],
     canActivate: [AuthGuardService]
