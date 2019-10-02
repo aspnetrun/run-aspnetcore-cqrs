@@ -20,9 +20,19 @@ export class CustomerListComponent implements OnInit {
 
   ngOnInit() {
     this.title = 'Customers'
-    this.filterText = 'Filter Customers:'
+    this.filterText = ''
     
     
+  }
+
+  filterChanged(data: string) {
+    if (data && this.customers) {
+      data = data.toUpperCase();
+      const props = ['firstName', 'lastName', 'city', 'state.name'];
+      //this.filteredCustomers = this.filterService.filter<ICustomer>(this.customers, data, props);
+    } else {
+      this.filteredCustomers = this.customers;
+    }
   }
 
 }

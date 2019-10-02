@@ -17,20 +17,22 @@
                             </a>
                         </li>
                     </ul>
+                                    
                     <cm-filter-textbox class="navbar-right"
                      (changed)="filterChanged($event)"></cm-filter-textbox>
+                     
                 </div>
             </div>
         </div>            
     
-        <cm-customers-grid 
+        <!-- <cm-customers-grid 
           [customers]="filteredCustomers" 
           [hidden]="displayMode !== displayModeEnum.Grid"></cm-customers-grid>        
 
         <cm-pagination
             [totalItems]="totalRecords" 
             [pageSize]="pageSize" 
-            (pageChanged)="pageChanged($event)"></cm-pagination>
+            (pageChanged)="pageChanged($event)"></cm-pagination> -->
           
     </div>
 </div>
