@@ -36,8 +36,7 @@ export class CustomerListComponent implements OnInit {
   filterChanged(data: string) {
     if (data && this.customers) {
       data = data.toUpperCase();
-      const props = ['firstName', 'lastName', 'city', 'state.name'];
-      //this.filteredCustomers = this.filterService.filter<ICustomer>(this.customers, data, props);
+      this.filteredCustomers = this.customers.filter(customer => customer.firstName.toLocaleUpperCase() == data);
     } else {
       this.filteredCustomers = this.customers;
     }
