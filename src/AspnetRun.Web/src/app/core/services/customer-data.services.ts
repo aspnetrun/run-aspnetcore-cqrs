@@ -9,6 +9,6 @@ export class CustomerDataService {
     constructor(private httpClient: HttpClient) { }
 
     getCustomers(): Observable<ICustomer[]> {
-        return this.httpClient.get<ICustomer[]>(environment.apiUrl + '/Category/GetCustomers');
+        return this.httpClient.get<ICustomer[]>(environment.apiUrl + '/Customer/GetCustomers');
     }
 }
