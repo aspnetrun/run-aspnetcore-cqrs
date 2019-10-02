@@ -8,7 +8,7 @@ import { forkJoin } from 'rxjs';
 
 @Component({
   templateUrl: './product-edit.component.html',
-  styleUrls: ['./product-edit.component.scss']
+  styleUrls: ['./product-edit.component.css']
 })
 export class ProductEditComponent implements OnInit {
 
