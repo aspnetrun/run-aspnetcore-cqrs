@@ -5,6 +5,7 @@ import { NgForm } from '@angular/forms';
 
 import { ICustomer, IState } from 'src/app/shared/interfaces';
 import { CustomerDataService } from 'src/app/core/services/customer-data.services';
+import { LoggerService } from 'src/app/core/services/logger.service';
 
 @Component({  
   templateUrl: './customer-edit.component.html',
@@ -34,7 +35,8 @@ export class CustomerEditComponent implements OnInit {
 
   constructor(private router: Router,
     private route: ActivatedRoute,
-    private dataService: CustomerDataService) { }
+    private dataService: CustomerDataService,
+    private logger: LoggerService) { }
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
@@ -50,6 +52,33 @@ export class CustomerEditComponent implements OnInit {
     this.dataService.getCustomerById(id).subscribe((customer : ICustomer) => { 
       this.customer = customer 
     });
+  }
+
+  cancel(event: Event) {
+    event.preventDefault();
+    this.router.navigate(['/customer']);
+  }
+
+  delete(event: Event) {
+    event.preventDefault();
+
+    this.dataService.deleteCustomer(this.customer.id)
+      .subscribe((status: boolean) => {
+        if (status) {
+          this.router.navigate(['/customer']);
+        } else {
+          this.errorMessage = 'Unable to delete customer';
+        }
+      },
+        (err) => this.logger.log(err));
+  }
+
+  submit() {
+    if (this.customer.id === 0) {
+      this.router.navigate(['/customer']);
+    } else {
+      this.router.navigate(['/customer']);
+    }
   }
 
 }

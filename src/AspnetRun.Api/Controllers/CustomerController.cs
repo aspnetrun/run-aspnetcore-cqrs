@@ -46,7 +46,7 @@ namespace AspnetRun.Api.Controllers
                     Description = "asdf",
                     State = "success",
                     Gender = "male",
-                    OrderTotal = 22.2                    
+                    OrderTotal = 22.2
                 },
                 new CustomerModel
                 {

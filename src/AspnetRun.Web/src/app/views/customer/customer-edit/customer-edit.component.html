@@ -38,7 +38,7 @@
       
             <div class="pull-right" *ngIf="!deleteMessageEnabled">
               <button class="btn btn-default" (click)="cancel($event)">Cancel</button>&nbsp;&nbsp;
-              <button type="submit" class="btn btn-success" [disabled]="customerForm.pristine || !customerForm.valid">{{ operationText }}</button>
+              <button type="submit" class="btn btn-success" [disabled]="!customerForm.valid">{{ operationText }}</button>
             </div>
           </div>
           <div class="alert alert-danger" *ngIf="errorMessage != null">{{ errorMessage }}</div>
