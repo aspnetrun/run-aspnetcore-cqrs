@@ -25,7 +25,7 @@
                             <td>{{ customer.city | trim }}</td>
                             <td>{{ customer.state.name }}</td>
                             <td>{{ customer.orderTotal | currency:'USD':'symbol' }}</td>
-                            <td><a [routerLink]="['/customer',customer.id,'orders']">View Orders</a></td>
+                            <td><a [routerLink]="['/customer/customer-order',customer.id]">View Orders</a></td>
                         </tr>
                         <tr *ngIf="!customers.length">
                             <td>&nbsp;</td>
