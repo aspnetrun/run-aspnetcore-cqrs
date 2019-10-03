@@ -5,13 +5,14 @@ import { CustomerRoutingModule } from './customer-routing.module';
 import { FilterTextboxComponent } from './customer-list/filter-textbox/filter-textbox.component';
 import { CustomerGridComponent } from './customer-list/customer-grid/customer-grid.component';
 import { CustomerOrderComponent } from './customer-order/customer-order.component';
+import { CustomerCartComponent } from './customer-cart/customer-cart.component';
 
 @NgModule({
   imports: [
     CustomerRoutingModule,
     SharedModule,
   ], 
-  declarations: [CustomerRoutingModule.components, FilterTextboxComponent, CustomerGridComponent, CustomerOrderComponent]
+  declarations: [CustomerRoutingModule.components, FilterTextboxComponent, CustomerGridComponent, CustomerOrderComponent, CustomerCartComponent]
 })
 export class CustomerModule { 
   
