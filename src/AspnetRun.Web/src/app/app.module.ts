@@ -15,6 +15,7 @@ import { P500Component } from './views/error/500.component';
 import { LoginComponent } from './views/login/login.component';
 import { RegisterComponent } from './views/register/register.component';
 import { DashboardComponent } from './views/dashboard/dashboard.component';
+import { AboutComponent } from './views/about/about.component';
 
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.default
@@ -28,6 +29,7 @@ const ngWizardConfig: NgWizardConfig = {
     LoginComponent,
     RegisterComponent,
     DashboardComponent,
+    AboutComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
