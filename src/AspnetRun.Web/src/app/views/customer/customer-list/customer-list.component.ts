@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ICustomer, IPagedResults } from 'src/app/shared/interfaces';
+import { ICustomer } from 'src/app/shared/interfaces';
 import { CustomerDataService } from 'src/app/core/services/customer-data.services';
 
 @Component({
@@ -22,11 +22,11 @@ export class CustomerListComponent implements OnInit {
   ngOnInit() {
     this.title = 'Customers'
     this.filterText = ''
-    
+
     this.getCustomers();
     //this.getCustomersPage(1);
   }
-  
+
   getCustomers() {
     this.dataService.getCustomers().subscribe((customers: ICustomer[]) => {
       this.customers = customers;

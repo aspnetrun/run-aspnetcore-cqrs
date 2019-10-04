@@ -6,8 +6,10 @@ using AspnetRun.Application.Mapper;
 using AspnetRun.Application.Models;
 using AspnetRun.Core.Entities;
 using AspnetRun.Core.Interfaces;
+using AspnetRun.Core.Paging;
 using AspnetRun.Core.Repositories;
 using AspnetRun.Core.Specifications;
+using AspnetRun.Infrastructure.Paging;
 
 namespace AspnetRun.Application.Services
 {
@@ -29,6 +31,23 @@ namespace AspnetRun.Application.Services
             var productModels = ObjectMapper.Mapper.Map<IEnumerable<ProductModel>>(productList);
 
             return productModels;
+        }
+
+        public async Task<IPagedList<ProductModel>> SearchProducts(PageSearchArgs args)
+        {
+            var productPagedList = await _productRepository.SearchProductsAsync(args);
+
+            //TODO: PagedList<TSource> will be mapped to PagedList<TDestination>;
+            var productModels = ObjectMapper.Mapper.Map<List<ProductModel>>(productPagedList.Items);
+
+            var productModelPagedList = new PagedList<ProductModel>(
+                productPagedList.PageIndex,
+                productPagedList.PageSize,
+                productPagedList.TotalCount,
+                productPagedList.TotalPages,
+                productModels);
+
+            return productModelPagedList;
         }
 
         public async Task<ProductModel> GetProductById(int productId)

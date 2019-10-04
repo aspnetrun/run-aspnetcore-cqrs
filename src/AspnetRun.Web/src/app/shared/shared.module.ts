@@ -27,7 +27,7 @@ import { TrimPipe } from './pipes/trim.pipe';
       enableFiltering: true,
       pagination: {
         pageSizes: [],
-        pageSize: 20,
+        pageSize: 10,
         totalItems: 0
       },
     }),
