@@ -27,7 +27,7 @@ export class CustomerDataService {
             );
     }
 
-    updateCustomer(customer: ICustomer): Observable<boolean> {
+    updateCustomer(id: number): Observable<boolean> {
         return this.httpClient.delete<boolean>(environment.apiUrl + '/' + id)
         .pipe(
             map(res => true)
