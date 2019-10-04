@@ -2,7 +2,7 @@
 
 namespace AspnetRun.Api.Requests
 {
-    public class SearchProductsRequest
+    public class SearchPageRequest
     {
         public PageSearchArgs Args { get; set; }
     }

@@ -40,7 +40,7 @@ namespace AspnetRun.Api.Controllers
         [Route("[action]")]
         [HttpPost]
         [ProducesResponseType(typeof(IPagedList<ProductModel>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<IPagedList<ProductModel>>> SearchProducts(SearchProductsRequest request)
+        public async Task<ActionResult<IPagedList<ProductModel>>> SearchProducts(SearchPageRequest request)
         {
             var productPagedList = await _productService.SearchProducts(request.Args);
 

@@ -1,6 +1,7 @@
 ﻿using AspnetRun.Api.Requests;
 using AspnetRun.Application.Interfaces;
 using AspnetRun.Application.Models;
+using AspnetRun.Core.Paging;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -34,6 +35,16 @@ namespace AspnetRun.Api.Controllers
             var categories = await _categoryService.GetCategoryList();
 
             return Ok(categories);
+        }
+
+        [Route("[action]")]
+        [HttpPost]
+        [ProducesResponseType(typeof(IPagedList<CategoryModel>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<IPagedList<CategoryModel>>> SearchCategories(SearchPageRequest request)
+        {
+            var categoryPagedList = await _categoryService.SearchCategories(request.Args);
+
+            return Ok(categoryPagedList);
         }
     }
 }

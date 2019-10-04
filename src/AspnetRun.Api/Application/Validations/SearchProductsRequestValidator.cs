@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace AspnetRun.Api.Application.Validations
 {
-    public class SearchProductsRequestValidator : AbstractValidator<SearchProductsRequest>
+    public class SearchProductsRequestValidator : AbstractValidator<SearchPageRequest>
     {
         public SearchProductsRequestValidator()
         {

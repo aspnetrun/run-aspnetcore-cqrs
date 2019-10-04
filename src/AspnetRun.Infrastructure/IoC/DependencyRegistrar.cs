@@ -19,6 +19,7 @@ namespace AspnetRun.Infrastructure.IoC
         {
             // repositories
             builder.RegisterType<ProductRepository>().As<IProductRepository>().InstancePerDependency();
+            builder.RegisterType<CategoryRepository>().As<ICategoryRepository>().InstancePerDependency();
             builder.RegisterGeneric(typeof(Repository<>)).As(typeof(IRepository<>)).InstancePerDependency();
             builder.RegisterGeneric(typeof(EnumRepository<>)).As(typeof(IEnumRepository<>)).InstancePerDependency();
             builder.RegisterGeneric(typeof(RepositoryBase<,>)).As(typeof(IRepositoryBase<,>)).InstancePerDependency();
