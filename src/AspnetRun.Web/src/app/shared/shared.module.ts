@@ -18,9 +18,9 @@ import { TrimPipe } from './pipes/trim.pipe';
     NgSelectModule,
     AngularSlickgridModule.forRoot({
       enableAutoResize: true,
-      autoHeight: false,
+      autoHeight: true,
+      alwaysShowVerticalScroll: false,
       autoResize: {
-        maxHeight: 429,
         containerId: 'grid-container',
         sidePadding: 0
       },
