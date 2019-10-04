@@ -1,7 +1,9 @@
 ﻿using AspnetRun.Core.Entities;
+using AspnetRun.Core.Paging;
 using AspnetRun.Core.Repositories;
 using AspnetRun.Core.Specifications;
 using AspnetRun.Infrastructure.Data;
+using AspnetRun.Infrastructure.Paging;
 using AspnetRun.Infrastructure.Repository.Base;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -33,6 +35,69 @@ namespace AspnetRun.Infrastructure.Repository
 
             // second way
             // return await GetAllAsync();
+        }
+
+        public Task<IPagedList<Product>> SearchProductsAsync(PageSearchArgs args)
+        {
+            var query = Table.Include(p => p.Category);
+
+            var orderByList = new List<Tuple<SortingOption, Expression<Func<Product, object>>>>();
+
+            if (args.SortingOptions != null)
+            {
+                foreach (var sortingOption in args.SortingOptions)
+                {
+                    switch (sortingOption.Field)
+                    {
+                        case "id":
+                            orderByList.Add(new Tuple<SortingOption, Expression<Func<Product, object>>>(sortingOption, p => p.Id));
+                            break;
+                        case "name":
+                            orderByList.Add(new Tuple<SortingOption, Expression<Func<Product, object>>>(sortingOption, p => p.Name));
+                            break;
+                        case "unitPrice":
+                            orderByList.Add(new Tuple<SortingOption, Expression<Func<Product, object>>>(sortingOption, p => p.UnitPrice));
+                            break;
+                        case "category.name":
+                            orderByList.Add(new Tuple<SortingOption, Expression<Func<Product, object>>>(sortingOption, p => p.Category.Name));
+                            break;
+                    }
+                }
+            }
+
+            if (orderByList.Count == 0)
+            {
+                orderByList.Add(new Tuple<SortingOption, Expression<Func<Product, object>>>(new SortingOption { Direction = SortingOption.SortingDirection.ASC }, p => p.Id));
+            }
+
+            //TODO: FilteringOption.Operator will be handled
+            var filterList = new List<Tuple<FilteringOption, Expression<Func<Product, bool>>>>();
+
+            if (args.FilteringOptions != null)
+            {
+                foreach (var filteringOption in args.FilteringOptions)
+                {
+                    switch (filteringOption.Field)
+                    {
+                        case "id":
+                            filterList.Add(new Tuple<FilteringOption, Expression<Func<Product, bool>>>(filteringOption, p => p.Id == (int)filteringOption.Value));
+                            break;
+                        case "name":
+                            filterList.Add(new Tuple<FilteringOption, Expression<Func<Product, bool>>>(filteringOption, p => p.Name.Contains((string)filteringOption.Value)));
+                            break;
+                        case "unitPrice":
+                            filterList.Add(new Tuple<FilteringOption, Expression<Func<Product, bool>>>(filteringOption, p => p.UnitPrice == (int)filteringOption.Value));
+                            break;
+                        case "category.name":
+                            filterList.Add(new Tuple<FilteringOption, Expression<Func<Product, bool>>>(filteringOption, p => p.Category.Name.Contains((string)filteringOption.Value)));
+                            break;
+                    }
+                }
+            }
+
+            var productPagedList = new PagedList<Product>(query, new PagingArgs { PageIndex = args.PageIndex, PageSize = args.PageSize, PagingStrategy = args.PagingStrategy }, orderByList, filterList);
+
+            return Task.FromResult<IPagedList<Product>>(productPagedList);
         }
 
         public async Task<IEnumerable<Product>> GetProductByNameAsync(string productName)

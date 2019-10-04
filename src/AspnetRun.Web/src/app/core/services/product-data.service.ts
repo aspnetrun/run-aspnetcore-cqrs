@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { IProduct } from 'src/app/shared/interfaces';
+import { IProduct, IPagedList } from 'src/app/shared/interfaces';
 
 @Injectable()
 export class ProductDataService {
@@ -10,6 +10,12 @@ export class ProductDataService {
 
     getProducts(): Observable<IProduct[]> {
         return this.httpClient.get<IProduct[]>(environment.apiUrl + '/Product/GetProducts');
+    }
+
+    searchProducts(args: any): Observable<IPagedList<IProduct>> {
+        var request = { args: args };
+
+        return this.httpClient.post<IPagedList<IProduct>>(environment.apiUrl + '/Product/SearchProducts', request);
     }
 
     getProductById(id: number): Observable<IProduct> {

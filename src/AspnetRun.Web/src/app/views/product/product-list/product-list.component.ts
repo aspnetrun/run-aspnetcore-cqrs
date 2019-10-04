@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AngularGridInstance, Column, GridOption, GraphqlService, GraphqlResult, Filters, Formatter, Formatters, OnEventArgs, FieldType } from 'angular-slickgrid';
+import { AngularGridInstance, Column, GridOption, GraphqlService, GraphqlResult, Filters, Formatters, OnEventArgs, FieldType } from 'angular-slickgrid';
 
 import { ProductDataService } from 'src/app/core/services/product-data.service';
 
@@ -48,9 +48,7 @@ export class ProductListComponent implements OnInit {
         service: new GraphqlService(),
         options: {
           columnDefinitions: this.columnDefinitions,
-          datasetName: GRAPHQL_QUERY_DATASET_NAME,
-          isWithCursor: false,
-          keepArgumentFieldDoubleQuotes: true
+          datasetName: GRAPHQL_QUERY_DATASET_NAME
         },
         process: (query) => this.getProducts(),
       }
@@ -62,27 +60,41 @@ export class ProductListComponent implements OnInit {
   }
 
   getProducts(): Promise<GraphqlResult> {
-
-    if (this.angularGrid) {
-      var a = this.angularGrid.backendService.getCurrentFilters();
-      var b = this.angularGrid.backendService.getCurrentSorters();
-      var c = this.angularGrid.backendService.getCurrentPagination();
-      var d = 0;
-    }
-
     return new Promise((resolve) => {
-      this.dataService.getProductsByName("")
+
+      var args: {};
+
+      if (this.angularGrid) {
+        var filteringOptions = this.angularGrid.backendService.options.filteringOptions;
+        var sortingOptions = this.angularGrid.backendService.options.sortingOptions;
+        var paginationOptions = this.angularGrid.backendService.getCurrentPagination();
+
+        args = {
+          pageIndex: paginationOptions.pageNumber,
+          pageSize: paginationOptions.pageSize,
+          filteringOptions: filteringOptions,
+          sortingOptions: sortingOptions
+        };
+      }
+      else {
+        args = {
+          pageIndex: 1,
+          pageSize: 10
+        };
+      }
+
+      this.dataService.searchProducts(args)
         .toPromise()
         .then(
-          products => {
-            var result = {
+          page => {
+            var result: GraphqlResult = {
               data: {
                 [GRAPHQL_QUERY_DATASET_NAME]: {
-                  nodes: products,
+                  nodes: page.items,
                   pageInfo: {
-                    hasNextPage: true
+                    hasNextPage: page.hasNextPage
                   },
-                  totalCount: 100
+                  totalCount: page.totalCount
                 }
               }
             };

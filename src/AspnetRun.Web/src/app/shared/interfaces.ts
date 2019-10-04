@@ -42,7 +42,12 @@ export interface IOrderItem {
     itemCost: number;
 }
 
-export interface IPagedResults<T> {
-    totalRecords: number;
-    results: T;
+export interface IPagedList<T> {
+    pageIndex: number;
+    pageSize: number;
+    totalCount: number;
+    totalPages: number;
+    hasPreviousPage: boolean;
+    hasNextPage: boolean;
+    items: T[];
 }

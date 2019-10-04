@@ -1,6 +1,7 @@
 ﻿using AspnetRun.Api.Requests;
 using AspnetRun.Application.Interfaces;
 using AspnetRun.Application.Models;
+using AspnetRun.Core.Paging;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -34,6 +35,16 @@ namespace AspnetRun.Api.Controllers
             var products = await _productService.GetProductList();
 
             return Ok(products);
+        }
+
+        [Route("[action]")]
+        [HttpPost]
+        [ProducesResponseType(typeof(IPagedList<ProductModel>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<IPagedList<ProductModel>>> SearchProducts(SearchProductsRequest request)
+        {
+            var productPagedList = await _productService.SearchProducts(request.Args);
+
+            return Ok(productPagedList);
         }
 
         [Route("[action]")]
