@@ -8,18 +8,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 
-import { NgWizardModule, NgWizardConfig, THEME } from 'ng-wizard';
-
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
 import { LoginComponent } from './views/login/login.component';
 import { RegisterComponent } from './views/register/register.component';
 import { DashboardComponent } from './views/dashboard/dashboard.component';
 import { AboutComponent } from './views/about/about.component';
-
-const ngWizardConfig: NgWizardConfig = {
-  theme: THEME.default
-};
 
 @NgModule({
   declarations: [
@@ -37,7 +31,6 @@ const ngWizardConfig: NgWizardConfig = {
     AppRoutingModule,     // Main routes for application
     CoreModule,           // Singleton objects (services, components that are loaded only once, etc.)
     SharedModule,         // Shared (multi-instance) objects
-    NgWizardModule.forRoot(ngWizardConfig),       // TODO: shall be moved  to core module
   ],
   providers: [],
   bootstrap: [AppComponent]

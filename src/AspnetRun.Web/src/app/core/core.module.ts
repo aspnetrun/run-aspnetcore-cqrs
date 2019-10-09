@@ -19,8 +19,13 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { RouterModule } from '@angular/router';
 import { CustomerDataService } from './services/customer-data.services';
 import { ToastrModule } from 'ngx-toastr';
+import { NgWizardModule, NgWizardConfig, THEME } from 'ng-wizard';
 
 const APP_CONTAINERS = [LayoutComponent];
+
+const ngWizardConfig: NgWizardConfig = {
+  theme: THEME.default
+};
 
 @NgModule({
   declarations: [
@@ -40,11 +45,13 @@ const APP_CONTAINERS = [LayoutComponent];
     PerfectScrollbarModule,
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
+    NgWizardModule.forRoot(ngWizardConfig),
   ],
   exports: [
     RouterModule,
     HttpClientModule,
     NgxUiLoaderModule,
+    NgWizardModule,
     LayoutComponent,
   ],
   providers: [
