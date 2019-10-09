@@ -35,6 +35,7 @@
     "ng-wizard": "^1.0.0",
     "ngx-bootstrap": "^4.3.0",
     "ngx-perfect-scrollbar": "^7.2.1",
+    "ngx-toastr": "^11.1.0",
     "ngx-ui-loader": "^7.2.2",
     "rxjs": "^6.5.3",
     "simple-line-icons": "^2.4.1",

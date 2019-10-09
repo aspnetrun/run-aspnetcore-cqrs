@@ -18,6 +18,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { RouterModule } from '@angular/router';
 import { CustomerDataService } from './services/customer-data.services';
+import { ToastrModule } from 'ngx-toastr';
 
 const APP_CONTAINERS = [LayoutComponent];
 
@@ -30,6 +31,7 @@ const APP_CONTAINERS = [LayoutComponent];
     NgxUiLoaderModule,
     //NgxUiLoaderRouterModule, // import this module for showing loader automatically when navigating between app routes
     NgxUiLoaderHttpModule.forRoot({ showForeground: false }),
+    ToastrModule.forRoot({ positionClass: 'toast-top-full-width', closeButton: true }),
     AppAsideModule,
     AppBreadcrumbModule.forRoot(),
     AppFooterModule,

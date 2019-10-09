@@ -2,8 +2,14 @@ import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse
 import { Observable, empty } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { Injectable } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 
+@Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
+    constructor(private toastr: ToastrService) {
+    }
+
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request)
             .pipe(
@@ -23,7 +29,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                         console.log(error);
                     }
 
-                    //TODO: a popup will be shown
+                    this.toastr.error(errorMessage);
                     console.log(errorMessage);
 
                     return empty();
