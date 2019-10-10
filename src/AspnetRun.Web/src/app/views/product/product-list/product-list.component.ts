@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { AngularGridInstance, Column, GridOption, GraphqlService, GraphqlResult, Filters, Formatters, OnEventArgs, FieldType } from 'angular-slickgrid';
 
 import { ProductDataService } from 'src/app/core/services/product-data.service';
+import { PageService } from 'src/app/core/services/page.service';
 
 
 const GRAPHQL_QUERY_DATASET_NAME = 'products';
@@ -21,7 +22,7 @@ export class ProductListComponent implements OnInit {
   gridOptions: GridOption;
   dataset = [];
 
-  constructor(private dataService: ProductDataService, private router: Router) {
+  constructor(private dataService: ProductDataService, private router: Router, private pageService: PageService) {
   }
 
   ngOnInit(): void {
@@ -62,26 +63,7 @@ export class ProductListComponent implements OnInit {
   }
 
   getProducts(): Observable<GraphqlResult> {
-    var args: {};
-
-    if (this.angularGrid) {
-      var filteringOptions = this.angularGrid.backendService.options.filteringOptions;
-      var sortingOptions = this.angularGrid.backendService.options.sortingOptions;
-      var paginationOptions = this.angularGrid.backendService.getCurrentPagination();
-
-      args = {
-        pageIndex: paginationOptions ? paginationOptions.pageNumber : 1,
-        pageSize: paginationOptions ? paginationOptions.pageSize : 10,
-        filteringOptions: filteringOptions,
-        sortingOptions: sortingOptions
-      };
-    }
-    else {
-      args = {
-        pageIndex: 1,
-        pageSize: 10
-      };
-    }
+    var args = this.pageService.getPageArgs(this.angularGrid);
 
     return this.dataService.searchProducts(args)
       .pipe(map(

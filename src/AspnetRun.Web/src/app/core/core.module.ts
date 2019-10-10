@@ -18,6 +18,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { RouterModule } from '@angular/router';
 import { CustomerDataService } from './services/customer-data.services';
+import { PageService } from './services/page.service';
 import { ToastrModule } from 'ngx-toastr';
 import { NgWizardModule, NgWizardConfig, THEME } from 'ng-wizard';
 
@@ -61,6 +62,7 @@ const ngWizardConfig: NgWizardConfig = {
     AuthService,
     AuthGuardService,
     ValidationService,
+    PageService,
     SpinnerService,
     {
       provide: HTTP_INTERCEPTORS,
