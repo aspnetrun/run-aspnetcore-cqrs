@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { AngularGridInstance, Column, GridOption, GraphqlService, GraphqlResult, Filters, Formatters, OnEventArgs, FieldType } from 'angular-slickgrid';
 
@@ -59,49 +61,44 @@ export class ProductListComponent implements OnInit {
     this.angularGrid = angularGrid;
   }
 
-  getProducts(): Promise<GraphqlResult> {
-    return new Promise((resolve) => {
+  getProducts(): Observable<GraphqlResult> {
+    var args: {};
 
-      var args: {};
+    if (this.angularGrid) {
+      var filteringOptions = this.angularGrid.backendService.options.filteringOptions;
+      var sortingOptions = this.angularGrid.backendService.options.sortingOptions;
+      var paginationOptions = this.angularGrid.backendService.getCurrentPagination();
 
-      if (this.angularGrid) {
-        var filteringOptions = this.angularGrid.backendService.options.filteringOptions;
-        var sortingOptions = this.angularGrid.backendService.options.sortingOptions;
-        var paginationOptions = this.angularGrid.backendService.getCurrentPagination();
+      args = {
+        pageIndex: paginationOptions ? paginationOptions.pageNumber : 1,
+        pageSize: paginationOptions ? paginationOptions.pageSize : 10,
+        filteringOptions: filteringOptions,
+        sortingOptions: sortingOptions
+      };
+    }
+    else {
+      args = {
+        pageIndex: 1,
+        pageSize: 10
+      };
+    }
 
-        args = {
-          pageIndex: paginationOptions.pageNumber,
-          pageSize: paginationOptions.pageSize,
-          filteringOptions: filteringOptions,
-          sortingOptions: sortingOptions
-        };
-      }
-      else {
-        args = {
-          pageIndex: 1,
-          pageSize: 10
-        };
-      }
-
-      this.dataService.searchProducts(args)
-        .toPromise()
-        .then(
-          page => {
-            var result: GraphqlResult = {
-              data: {
-                [GRAPHQL_QUERY_DATASET_NAME]: {
-                  nodes: page.items,
-                  pageInfo: {
-                    hasNextPage: page.hasNextPage
-                  },
-                  totalCount: page.totalCount
-                }
+    return this.dataService.searchProducts(args)
+      .pipe(map(
+        page => {
+          var result: GraphqlResult = {
+            data: {
+              [GRAPHQL_QUERY_DATASET_NAME]: {
+                nodes: page.items,
+                pageInfo: {
+                  hasNextPage: page.hasNextPage
+                },
+                totalCount: page.totalCount
               }
-            };
+            }
+          };
 
-            resolve(result);
-          }
-        );
-    });
+          return result;
+        }));
   }
 }
