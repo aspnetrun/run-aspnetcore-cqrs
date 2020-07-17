@@ -30,7 +30,7 @@
     "core-js": "^2.6.9",
     "font-awesome": "^4.7.0",
     "jquery": "^3.4.1",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "moment": "^2.24.0",
     "ng-wizard": "^1.0.0",
     "ngx-bootstrap": "^4.3.0",
