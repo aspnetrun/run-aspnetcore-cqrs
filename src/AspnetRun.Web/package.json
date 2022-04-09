@@ -31,7 +31,7 @@
     "font-awesome": "^4.7.0",
     "jquery": "^3.4.1",
     "lodash": "^4.17.15",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "ng-wizard": "^1.0.0",
     "ngx-bootstrap": "^4.3.0",
     "ngx-perfect-scrollbar": "^7.2.1",
